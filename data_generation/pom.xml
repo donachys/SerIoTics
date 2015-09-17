@@ -5,7 +5,7 @@
   <artifactId>VeryLargeEntityMonitor_data_generation</artifactId>
   <packaging>jar</packaging>
   <version>1.0</version>
-  <name>hodrocality_data_generation</name>
+  <name>VLEMon_data_generation</name>
   <url>http://maven.apache.org</url>
   <build>
   <plugins>
