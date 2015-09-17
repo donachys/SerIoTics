@@ -9,7 +9,7 @@ libraryDependencies ++= Seq(
 	"org.apache.spark" %% "spark-sql" % "1.3.0" % "provided",
 	"org.apache.spark" % "spark-streaming_2.10" % "1.3.0" % "1.5.0",
 	"org.apache.spark" % "spark-streaming-kafka_2.10" % "1.3.0",
-	"com.datastax.spark" % "spark-cassandra-connector" % "1.5.0-M1"
+	"com.datastax.spark" %% "spark-cassandra-connector" % "1.5.0-M1"
 )
 
 mergeStrategy in assembly := {
