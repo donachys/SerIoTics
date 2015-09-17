@@ -1,8 +1,18 @@
+package com.VeryLargeEntityMonitor.data_generation;
+
+import java.util.ArrayList;
+import java.util.List;
 public class MajorCategory{
-	public enum MajorType{ INDUSTRY, OUTDOOR, HUMANITARIAN }
-	MajorType type;
-	public MajorCategory(MajorType mt){
-		type = mt;
-	}
+    private static final int NUM_MINOR = 100;
+    public static enum MajorType{ INDUSTRY, OUTDOOR, HUMANITARIAN }
+
+    MajorType type;
+    List<MinorCategory> minors = new ArrayList<MinorCategory>();
+    public MajorCategory(MajorType mt){
+        type = mt;
+        for(int i=0; i<NUM_MINOR; i++){
+            minors.add(new MinorCategory(MinorCategory.MinorType.BATHROOM, i));
+        }
+    }
 }
 
