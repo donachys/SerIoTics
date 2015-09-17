@@ -46,3 +46,24 @@ object ConsumeKafka {
 
  }
 }
+case class Tick(source: String, price: Double, volume: Int)
+
+/** Lazily instantiated singleton instance of SQLContext */
+
+object SQLContextSingleton {
+
+  @transient  private var instance: SQLContext = _
+
+  def getInstance(sparkContext: SparkContext): SQLContext = {
+
+    if (instance == null) {
+
+      instance = new SQLContext(sparkContext)
+
+    }
+
+    instance
+
+  }
+
+}
