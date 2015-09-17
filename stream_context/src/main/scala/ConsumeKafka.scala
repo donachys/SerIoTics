@@ -30,13 +30,13 @@ object ConsumeKafka {
         val sqlContext = SQLContextSingleton.getInstance(rdd.sparkContext)
         import sqlContext.implicits._
         val lines = rdd.map(_._2)
-        // val ticksDF = lines.map( x => {
-        //                           val tokens = x.split(";")
-        //                           Tick(tokens(0), tokens(2).toDouble, tokens(3).toInt)}).toDF()
-        //val ticks_per_source_DF = ticksDF.groupBy("source")
-        //                        .agg("price" -> "avg", "volume" -> "sum")
-        //                        .orderBy("source")
-        //ticks_per_source_DF.show()
+        val ticksDF = lines.map( x => {
+                                  val tokens = x.split(",")
+                                  Tick(tokens(0).toInt, tokens(1), tokens(2), tokens(3), tokens(4).toDouble)}).toDF()
+        val ticks_per_source_DF = ticksDF.groupBy("source_id")
+                               .agg("quantity" -> "avg", "quantity" -> "sum")
+                               .orderBy("source_id")
+        ticks_per_source_DF.show()
         //ticks_per_source_DF.saveToCassandra("playground")
     }
 
@@ -46,7 +46,7 @@ object ConsumeKafka {
 
  }
 }
-case class Tick(source: String, price: Double, volume: Int)
+case class Tick(source_id: Int, item_sensed: String, subject_measured: String, sensor_location_name: String, quantity: float)
 
 /** Lazily instantiated singleton instance of SQLContext */
 
