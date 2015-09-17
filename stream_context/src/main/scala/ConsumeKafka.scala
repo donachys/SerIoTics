@@ -46,7 +46,7 @@ object ConsumeKafka {
 
  }
 }
-case class Tick(source_id: Int, item_sensed: String, subject_measured: String, sensor_location_name: String, quantity: float)
+case class Tick(source_id: Int, item_sensed: String, subject_measured: String, sensor_location_name: String, quantity: Float)
 
 /** Lazily instantiated singleton instance of SQLContext */
 
