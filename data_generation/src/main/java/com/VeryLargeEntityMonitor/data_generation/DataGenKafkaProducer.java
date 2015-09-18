@@ -28,6 +28,7 @@ public class DataGenKafkaProducer{
         for(int i=0; i<NUM_MAJOR; i++){
             major_categories.add(new MajorCategory(MajorCategory.MajorType.HUMANITARIAN, i));
         }
+        long msg_num = 0;
         for (long nEvents = 0; nEvents < events; nEvents++) {
             System.out.println("nEvents: " + nEvents);
             long runtime = new Date().getTime();
@@ -39,7 +40,7 @@ public class DataGenKafkaProducer{
                     //poll MinorCategories
                     String key = tempMC.minors.get(j).getMajorMinor();
                     String msg = tempMC.minors.get(j).getMessage() +","+ runtime;
-                    long msg_num = (nEvents*events*major_categories.size()*tempMC.minors.size())+(i*tempMC.minors.size())+j;
+                    msg_num++;
                     ProducerRecord<String, String> data = new ProducerRecord<String, String>("my-topic2", key, msg_num+","+msg);
                     producer.send(data);
                 }
