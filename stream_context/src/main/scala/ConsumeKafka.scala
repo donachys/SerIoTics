@@ -35,13 +35,13 @@ object ConsumeKafka {
                                   val tokens = x.split(",")
                                   Tick(tokens(0).toInt, tokens(1), tokens(2), tokens(3), tokens(4).toFloat)}).toDF()
         val ticks_per_source_DF = ticksDF.groupBy("source_id")
-                               .agg("quantity" -> "avg", "quantity" -> "sum")
+                               .agg("quantity" -> "avg")//, "quantity" -> "sum")
                                .orderBy("source_id")
         ticks_per_source_DF.show()
-        // ticks_per_source_DF.write
-        //     .format("org.apache.spark.sql.cassandra")
-        //     .options(Map( "table" -> "mytopic2", "keyspace" -> "playground"))
-        //     .save()
+        ticks_per_source_DF.write
+            .format("org.apache.spark.sql.cassandra")
+            .options(Map( "table" -> "mytopic3", "keyspace" -> "playground"))
+            .save()
     }
 
     // Start the computation
