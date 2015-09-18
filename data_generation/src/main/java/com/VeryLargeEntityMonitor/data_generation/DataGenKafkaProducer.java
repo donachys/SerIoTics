@@ -39,7 +39,7 @@ public class DataGenKafkaProducer{
                     //poll MinorCategories
                     String key = tempMC.minors.get(j).getMajorMinor();
                     String msg = tempMC.minors.get(j).getMessage() +","+ runtime;
-                    int msg_num = (nEvents*events*major_categories.size()*tempMC.minors.size())+(i*tempMC.minors.size())+j;
+                    long msg_num = (nEvents*events*major_categories.size()*tempMC.minors.size())+(i*tempMC.minors.size())+j;
                     ProducerRecord<String, String> data = new ProducerRecord<String, String>("my-topic2", key, msg_num+","+msg);
                     producer.send(data);
                 }
