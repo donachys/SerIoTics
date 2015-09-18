@@ -43,7 +43,7 @@ object ConsumeKafka {
         ticksDF.write
             .format("org.apache.spark.sql.cassandra")
             .options(Map( "table" -> "mytopic4", "keyspace" -> "playground"))
-            .save("overwrite")
+            .save().mode(SaveMode.Append)
     }
 
     // Start the computation
