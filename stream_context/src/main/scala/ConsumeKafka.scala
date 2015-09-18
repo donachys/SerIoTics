@@ -28,13 +28,13 @@ object ConsumeKafka {
     
     // Get the lines and show results
     messages.foreachRDD { rdd =>
-        
+
         val sqlContext = SQLContextSingleton.getInstance(rdd.sparkContext)
         import sqlContext.implicits._
         val lines = rdd.map(_._2)
         val ticksDF = lines.map( x => {
                                   val tokens = x.split(",")
-                                  Tick(tokens(0).toInt, tokens(1), tokens(2), tokens(3), tokens(4).toFloat)}).toDF()
+                                  Tick(tokens(0).toInt, tokens(1), tokens(2), tokens(3), tokens(4).toFloat, tokens(5).toInt)}).toDF()
         // val ticks_per_source_DF = ticksDF.groupBy("source_id")
         //                        .agg("quantity" -> "avg")//, "quantity" -> "sum")
         //                        .orderBy("source_id")
