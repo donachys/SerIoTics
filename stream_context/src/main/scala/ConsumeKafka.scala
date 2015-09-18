@@ -28,19 +28,22 @@ object ConsumeKafka {
     
     // Get the lines and show results
     messages.foreachRDD { rdd =>
+        
         val sqlContext = SQLContextSingleton.getInstance(rdd.sparkContext)
         import sqlContext.implicits._
         val lines = rdd.map(_._2)
         val ticksDF = lines.map( x => {
                                   val tokens = x.split(",")
                                   Tick(tokens(0).toInt, tokens(1), tokens(2), tokens(3), tokens(4).toFloat)}).toDF()
-        val ticks_per_source_DF = ticksDF.groupBy("source_id")
-                               .agg("quantity" -> "avg")//, "quantity" -> "sum")
-                               .orderBy("source_id")
-        ticks_per_source_DF.show()
-        ticks_per_source_DF.write
+        // val ticks_per_source_DF = ticksDF.groupBy("source_id")
+        //                        .agg("quantity" -> "avg")//, "quantity" -> "sum")
+        //                        .orderBy("source_id")
+
+        ticksDF.show()
+        //ticks_per_source_DF.show()
+        ticksDF.write
             .format("org.apache.spark.sql.cassandra")
-            .options(Map( "table" -> "mytopic3", "keyspace" -> "playground"))
+            .options(Map( "table" -> "mytopic4", "keyspace" -> "playground"))
             .save()
     }
 
