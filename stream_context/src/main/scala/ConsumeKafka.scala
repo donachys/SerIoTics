@@ -37,10 +37,7 @@ object ConsumeKafka {
                                .agg("quantity" -> "avg", "quantity" -> "sum")
                                .orderBy("source_id")
         ticks_per_source_DF.show()
-        ticks_per_source_DF.write
-        .format("org.apache.spark.sql.cassandra")
-        .options(Map( "table" -> "my-topic2", "keyspace" -> "playground"))
-        .save()
+        ticks_per_source_DF.write.format("org.apache.spark.sql.cassandra").options(Map( "table" -> "my-topic2", "keyspace" -> "playground")).save()
     }
 
     // Start the computation
