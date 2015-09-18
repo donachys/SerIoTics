@@ -18,7 +18,7 @@ object ConsumeKafka {
     val topicsSet = topics.split(",").toSet
 
     // Create context with 2 second batch interval
-    val sparkConf = new SparkConf().setAppName(appName)
+    val sparkConf = new SparkConf().setAppName(appName).set("spark.cassandra.connection.host", "127.0.0.1");
     val ssc = new StreamingContext(sparkConf, Seconds(2))
 
     // Create direct kafka stream with brokers and topics
@@ -37,7 +37,10 @@ object ConsumeKafka {
                                .agg("quantity" -> "avg", "quantity" -> "sum")
                                .orderBy("source_id")
         ticks_per_source_DF.show()
-        //ticks_per_source_DF.saveToCassandra("playground")
+        ticks_per_source_DF.write
+        .format("org.apache.spark.sql.cassandra")
+        .options(Map( "table" -> "my-topic2", "keyspace" -> "playground"))
+        .save()
     }
 
     // Start the computation
