@@ -1,9 +1,11 @@
 package com.VeryLargeEntityMonitor.data_generation;
+import com.google.gson.Gson;
+import java.util.Date;
 
 public class MinorCategory{
-    public static enum MinorType{ HALLWAY, KITCHEN, BATHROOM, STORAGE, CLASSROOM }
     public static long id_counter = 0;
-    MinorType type;
+    MinorType minType;
+    MajorType majType;
     int major_area_num, minor_area_num;
     float consumption_rate;
     long unique_id;
@@ -13,10 +15,11 @@ public class MinorCategory{
     float prob_turn_on = 0.05f;
     int ticks_since_turn_on = 0;
 
-    public MinorCategory(MinorType mt, int major, int minor){
+    public MinorCategory(MinorType mint, MajorType majt, int major, int minor){
         major_area_num = major;
         minor_area_num = minor;
-        type = mt;
+        minType = mint;
+        majType = majt;
         unique_id = id_counter++;
         item_sensed = "toilet";
         subject_measured = "water";
@@ -32,6 +35,7 @@ public class MinorCategory{
     public String getMessage(){
         if(is_flowing){
             if(ticks_since_turn_on++ > 4){
+                ticks_since_turn_on = 0;
                 is_flowing = false;
             }
             return unique_id+","+item_sensed+","+subject_measured+","+sensor_location_name+","+consumption_rate;
@@ -40,6 +44,35 @@ public class MinorCategory{
                 is_flowing = true;
             }
             return unique_id+","+item_sensed+","+subject_measured+","+sensor_location_name+","+0;
+        }
+    }
+    public String getMessageAsJSON(){
+        //return "{\"water-sensor\": { \"sensor_id\": "+unique_id+", \"item_sensed\": \""+item_sensed+"\"+}}"
+        Gson gson = new Gson();
+        long runtime = new Date().getTime();
+        //long unique_id, int major_num, int minor_num,
+        // float quantity, String minor_type,
+        // String major_type, String item_sensed,
+        // String subject_measured, String sensor_location_name
+        if(is_flowing){
+            if(ticks_since_turn_on++ > 4){
+                ticks_since_turn_on = 0;
+                is_flowing = false;
+            }
+            return gson.toJson(new WaterSensor(unique_id, major_area_num,
+                               minor_area_num, consumption_rate, 
+                               minType.toString(), majType.toString(),
+                               item_sensed, subject_measured,
+                               sensor_location_name, runtime));
+        }else{
+            if(Math.random() > prob_turn_on){
+                is_flowing = true;
+            }
+            return gson.toJson(new WaterSensor(unique_id, major_area_num,
+                               minor_area_num, 0.0f, minType.toString(), 
+                               majType.toString(), item_sensed, 
+                               subject_measured, sensor_location_name,
+                               runtime));
         }
     }
 }

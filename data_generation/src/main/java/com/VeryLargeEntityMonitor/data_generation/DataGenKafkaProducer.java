@@ -2,10 +2,11 @@ package com.VeryLargeEntityMonitor.data_generation;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
+//import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Properties;
-import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -26,12 +27,11 @@ public class DataGenKafkaProducer{
         List<MajorCategory> major_categories = new ArrayList<MajorCategory>();
         
         for(int i=0; i<NUM_MAJOR; i++){
-            major_categories.add(new MajorCategory(MajorCategory.MajorType.HUMANITARIAN, i));
+            major_categories.add(new MajorCategory(MajorType.HUMANITARIAN, i));
         }
         long msg_num = 0;
         for (long nEvents = 0; nEvents < events; nEvents++) {
             System.out.println("nEvents: " + nEvents);
-            long runtime = new Date().getTime();
             //iterate through MajorCategories
             for(int i=0; i<major_categories.size(); i++){
                 //iterate through MinorCategories
@@ -39,7 +39,7 @@ public class DataGenKafkaProducer{
                 for(int j=0; j<tempMC.minors.size(); j++){
                     //poll MinorCategories
                     String key = tempMC.minors.get(j).getMajorMinor();
-                    String msg = tempMC.minors.get(j).getMessage() +","+ runtime;
+                    String msg = tempMC.minors.get(j).getMessageAsJSON();
                     msg_num++;
                     ProducerRecord<String, String> data = new ProducerRecord<String, String>("my-topic2", key, msg_num+","+msg);
                     producer.send(data);
