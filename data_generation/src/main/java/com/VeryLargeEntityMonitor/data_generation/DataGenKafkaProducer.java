@@ -17,7 +17,7 @@ public class DataGenKafkaProducer{
         Random rnd = new Random();
         
         Properties props = new Properties();
-        props.put("bootstrap.servers", "ec2-54-153-2-109.us-west-1.compute.amazonaws.com:9092,ec2-54-153-26-178.us-west-1.compute.amazonaws.com:9092,ec2-54-153-48-210.us-west-1.compute.amazonaws.com:9092");
+        props.put("bootstrap.servers", "ec2-54-67-82-77.us-west-1.compute.amazonaws.com:9092,ec2-54-153-2-109.us-west-1.compute.amazonaws.com:9092,ec2-54-153-26-178.us-west-1.compute.amazonaws.com:9092,ec2-54-153-48-210.us-west-1.compute.amazonaws.com:9092");
         props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         props.put("acks", "1");
