@@ -7,7 +7,7 @@ for ID in `seq 1 $NUM_SPAWNS`;
 do
 	sleep $[ ( $RANDOM % 4 )  + 1 ]s
     echo $ID
-    TEMPSEED=((($ID*1000)+$SEED))
+    TEMPSEED=$((($ID*1000)+$SEED))
     tmux new-window -t $ID
     tmux send-keys -t $SESSION:$ID 'java -jar target/VeryLargeEntityMonitor_data_generation-1.0.jar '"$TEMPSEED"' 5 500' C-m
 done
