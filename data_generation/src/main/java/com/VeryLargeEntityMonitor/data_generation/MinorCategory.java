@@ -16,12 +16,12 @@ public class MinorCategory{
     transient float prob_turn_on = 0.05f;
     int ticks_since_turn_on = 0;
 
-    public MinorCategory(MinorType mint, MajorType majt, int major, int minor){
+    public MinorCategory(MinorType mint, MajorType majt, int seed, int major, int minor){
         major_area_num = major;
         minor_area_num = minor;
         minType = mint;
         majType = majt;
-        unique_id = id_counter++;
+        unique_id = seed+id_counter++;
         item_sensed = "toilet";
         subject_measured = "water";
         sensor_location_name = "bathroom";
