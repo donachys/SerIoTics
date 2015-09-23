@@ -3,16 +3,16 @@ import com.google.gson.Gson;
 import java.util.Date;
 
 public class MinorCategory{
-    public static long id_counter = 0;
+    public transient static long id_counter = 0;
     MinorType minType;
     MajorType majType;
     int major_area_num, minor_area_num;
-    float consumption_rate;
-    long unique_id;
+    transient float consumption_rate;
+    long unique_id, runtime;
     String item_sensed, subject_measured, sensor_location_name;
-    boolean is_flowing=false;
+    transient boolean is_flowing=false;
 
-    float prob_turn_on = 0.05f;
+    transient float prob_turn_on = 0.05f;
     int ticks_since_turn_on = 0;
 
     public MinorCategory(MinorType mint, MajorType majt, int major, int minor){
@@ -49,7 +49,7 @@ public class MinorCategory{
     public String getMessageAsJSON(){
         //return "{\"water-sensor\": { \"sensor_id\": "+unique_id+", \"item_sensed\": \""+item_sensed+"\"+}}"
         Gson gson = new Gson();
-        long runtime = new Date().getTime();
+        this.runtime = new Date().getTime();
         //long unique_id, int major_num, int minor_num,
         // float quantity, String minor_type,
         // String major_type, String item_sensed,
@@ -59,20 +59,22 @@ public class MinorCategory{
                 ticks_since_turn_on = 0;
                 is_flowing = false;
             }
-            return gson.toJson(new WaterSensor(unique_id, major_area_num,
-                               minor_area_num, consumption_rate, 
-                               minType.toString(), majType.toString(),
-                               item_sensed, subject_measured,
-                               sensor_location_name, runtime));
+            return gson.toJson(this);
+            // return gson.toJson(new WaterSensor(unique_id, major_area_num,
+            //                    minor_area_num, consumption_rate, 
+            //                    minType.toString(), majType.toString(),
+            //                    item_sensed, subject_measured,
+            //                    sensor_location_name, runtime));
         }else{
             if(Math.random() > prob_turn_on){
                 is_flowing = true;
             }
-            return gson.toJson(new WaterSensor(unique_id, major_area_num,
-                               minor_area_num, 0.0f, minType.toString(), 
-                               majType.toString(), item_sensed, 
-                               subject_measured, sensor_location_name,
-                               runtime));
+            // return gson.toJson(new WaterSensor(unique_id, major_area_num,
+            //                    minor_area_num, 0.0f, minType.toString(), 
+            //                    majType.toString(), item_sensed, 
+            //                    subject_measured, sensor_location_name,
+            //                    runtime));
+            return gson.toJson(this);
         }
     }
 }
