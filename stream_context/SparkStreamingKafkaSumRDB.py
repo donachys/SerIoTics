@@ -29,7 +29,7 @@ if __name__ == "__main__":
     numStreams = 4
     kafkaStreams = [KafkaUtils.createStream(ssc, zkQuorum, "my-topic2-consumer", {topic: 1}) for _ in range (numStreams)]
     #kvs = kafkaStreams[1]
-    kkvvss = ssc.union(*kafkaStreams)#.partitionBy(numPartitions=20)
+    #kkvvss = ssc.union(*kafkaStreams)#.partitionBy(numPartitions=20)
     #kvs.print()
 
 
@@ -57,23 +57,23 @@ if __name__ == "__main__":
             print(rdd.getNumPartitions())
             print("-------##########################----------")
 
-    #kafkaStreams[0].foreachRDD(lambda rdd: sendPartitionCount(0,rdd.count()))
-    #kafkaStreams[1].foreachRDD(lambda rdd: sendPartitionCount(1,rdd.count()))
-    #kafkaStreams[2].foreachRDD(lambda rdd: sendPartitionCount(2,rdd.count()))
-    #kafkaStreams[3].foreachRDD(lambda rdd: sendPartitionCount(3,rdd.count()))
-    kkvvss.foreachRDD(lambda rdd: sendPartitionCount(0,rdd.count()))
-    # for idx,kvs in enumerate(kafkaStreams):
-    #     kvs.foreachRDD(printParts)
-    #     records = kvs.map(lambda x: json.loads(x[1]))
-    #     sums = records.map(lambda obj: (obj['unique_id'], obj['quantity'])) \
-    #         .reduceByKey(lambda a, b: a+b)
-    #     sums.pprint(num=300)
-    #     kvs.count().pprint()
-    kkvvss.foreachRDD(printParts)
-    records = kkvvss.map(lambda x: json.loads(x[1]))
-    sums = records.map(lambda obj: (obj['unique_id'], obj['quantity'])) \
-        .reduceByKey(lambda a, b: a+b)
-    sums.pprint(num=10)
+    kafkaStreams[0].foreachRDD(lambda rdd: sendPartitionCount(0,rdd.count()))
+    kafkaStreams[1].foreachRDD(lambda rdd: sendPartitionCount(1,rdd.count()))
+    kafkaStreams[2].foreachRDD(lambda rdd: sendPartitionCount(2,rdd.count()))
+    kafkaStreams[3].foreachRDD(lambda rdd: sendPartitionCount(3,rdd.count()))
+    #kkvvss.foreachRDD(lambda rdd: sendPartitionCount(0,rdd.count()))
+    for idx,kvs in enumerate(kafkaStreams):
+        kvs.foreachRDD(printParts)
+        records = kvs.map(lambda x: json.loads(x[1]))
+        sums = records.map(lambda obj: (obj['unique_id'], obj['quantity'])) \
+            .reduceByKey(lambda a, b: a+b)
+        sums.pprint(num=300)
+        kvs.count().pprint()
+    #kkvvss.foreachRDD(printParts)
+    #records = kkvvss.map(lambda x: json.loads(x[1]))
+    #sums = records.map(lambda obj: (obj['unique_id'], obj['quantity'])) \
+    #    .reduceByKey(lambda a, b: a+b)
+    #sums.pprint(num=10)
 
     ssc.start()
     ssc.awaitTermination()
