@@ -8,6 +8,7 @@ public class MinorCategory{
     MajorType majType;
     int major_area_num, minor_area_num;
     transient float consumption_rate;
+    float quantity;
     long unique_id, runtime;
     String item_sensed, subject_measured, sensor_location_name;
     transient boolean is_flowing=false;
@@ -55,6 +56,7 @@ public class MinorCategory{
         // String major_type, String item_sensed,
         // String subject_measured, String sensor_location_name
         if(is_flowing){
+            quantity = consumption_rate;
             if(ticks_since_turn_on++ > 4){
                 ticks_since_turn_on = 0;
                 is_flowing = false;
@@ -66,6 +68,7 @@ public class MinorCategory{
             //                    item_sensed, subject_measured,
             //                    sensor_location_name, runtime));
         }else{
+            quantity = 0.0f;
             if(Math.random() > prob_turn_on){
                 is_flowing = true;
             }
