@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class DataGenKafkaProducer{
-    public static final int NUM_MAJOR = 10;
+    public static final int NUM_MAJOR = 100;
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(4);
 
         public static void main(String... args){
