@@ -21,9 +21,10 @@ if __name__ == "__main__":
     RDB_DB = "mytopic2db"
     RDB_TABLE = "test2"
     zkQuorum, topic, stream_window = sys.argv[1:]
+    stream_window = int(stream_window)
     
     sc = SparkContext(appName="PythonStreamingKafkaSums")
-    ssc = StreamingContext(sc, stream_window)
+    ssc = StreamingContext(sc, batchDuration=stream_window)
 
     
     streams = []
