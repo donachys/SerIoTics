@@ -3,7 +3,7 @@ package com.VeryLargeEntityMonitor.data_generation;
 import java.util.ArrayList;
 import java.util.List;
 public class MajorCategory{
-    private static final int NUM_MINOR = 100;
+    private static final int NUM_MINOR = 1250;
 
     MajorType type;
     int major_area_num;
