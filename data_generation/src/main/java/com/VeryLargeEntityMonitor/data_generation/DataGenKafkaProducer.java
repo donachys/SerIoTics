@@ -27,7 +27,6 @@ public class DataGenKafkaProducer{
             int seed = Integer.parseInt(args[0]);
             long delay = Long.parseLong(args[1]);
             long duration = Long.parseLong(args[2]);
-            System.out.println("delay: " + delay + " duration: " + duration);
             Random rnd = new Random();
             Properties props = new Properties();
             props.put("bootstrap.servers", "ec2-54-219-131-191.us-west-1.compute.amazonaws.com:9092,ec2-54-219-135-236.us-west-1.compute.amazonaws.com:9092,ec2-54-219-166-112.us-west-1.compute.amazonaws.com:9092,ec2-54-219-135-254.us-west-1.compute.amazonaws.com:9092");
@@ -52,7 +51,7 @@ public class DataGenKafkaProducer{
                             //poll MinorCategories
                             String key = tempMC.minors.get(j).getMajorMinor();
                             String msg = tempMC.minors.get(j).getMessageAsJSON();
-                            System.out.println("key: " + key + " msg: " + msg);
+                            //System.out.println("key: " + key + " msg: " + msg);
                             ProducerRecord<String, String> data = new ProducerRecord<String, String>("my-topic2", key, msg);
                             producer.send(data);
                         }
