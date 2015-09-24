@@ -12,7 +12,7 @@ import os
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
+    if len(sys.argv) != 4:
         print("Usage: SparkStreamingKafkaSumRDB.py <zk> <topic>", file=sys.stderr)
         exit(-1)
 
@@ -20,10 +20,12 @@ if __name__ == "__main__":
     RDB_PORT = os.environ.get('RDB_PORT')
     RDB_DB = "mytopic2db"
     RDB_TABLE = "test2"
+    zkQuorum, topic, stream_window = sys.argv[1:]
+    
     sc = SparkContext(appName="PythonStreamingKafkaSums")
-    ssc = StreamingContext(sc, 1)
+    ssc = StreamingContext(sc, stream_window)
 
-    zkQuorum, topic = sys.argv[1:]
+    
     streams = []
     
     numStreams = 4
