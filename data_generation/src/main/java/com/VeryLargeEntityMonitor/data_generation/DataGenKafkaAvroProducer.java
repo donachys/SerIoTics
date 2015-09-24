@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -15,7 +16,7 @@ import java.util.Properties;
 import java.util.List;
 import java.util.ArrayList;
 
-public class DataGenKafkaProducer{
+public class DataGenKafkaAvroProducer{
     public static final int NUM_MAJOR = 100;
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(4);
 
@@ -34,7 +35,7 @@ public class DataGenKafkaProducer{
             props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
             props.put("acks", "1");
 
-            final KafkaProducer<String, String> producer = new KafkaProducer<String, String>(props);
+            final KafkaProducer<String, byte[]> producer = new KafkaProducer<String, byte[]>(props);
             //create MajorCategories
             final List<MajorCategory> major_categories = new ArrayList<MajorCategory>();
             
@@ -50,9 +51,14 @@ public class DataGenKafkaProducer{
                         for(int j=0; j<tempMC.minors.size(); j++){
                             //poll MinorCategories
                             String key = tempMC.minors.get(j).getMajorMinor();
-                            String msg = tempMC.minors.get(j).getMessageAsJSON();
+                            byte[] msg = new byte[0];
+                            try{
+                            msg = tempMC.minors.get(j).getMessageAsBytes();
+                            }catch(IOException e){
+                                e.printStackTrace();
+                            }
                             //System.out.println("key: " + key + " msg: " + msg);
-                            ProducerRecord<String, String> data = new ProducerRecord<String, String>("my-topic3", key, msg);
+                            ProducerRecord<String, byte[]> data = new ProducerRecord<String, byte[]>("my-topic3", key, msg);
                             producer.send(data);
                         }
                     }
