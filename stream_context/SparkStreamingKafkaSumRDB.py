@@ -1,6 +1,7 @@
 from __future__ import print_function
 
 import sys
+import time
 
 from pyspark import SparkContext
 from pyspark.streaming import StreamingContext
@@ -12,15 +13,14 @@ import os
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 4:
-        print("Usage: SparkStreamingKafkaSumRDB.py <zk> <topic>", file=sys.stderr)
+    if len(sys.argv) != 5:
+        print("Usage: SparkStreamingKafkaSumRDB.py <zk> <topic> <window size (sec)> <tablename>", file=sys.stderr)
         exit(-1)
 
     RDB_HOST =  os.environ.get('RDB_HOST')
     RDB_PORT = os.environ.get('RDB_PORT')
     RDB_DB = "mytopic2db"
-    RDB_TABLE = "test2"
-    zkQuorum, topic, stream_window = sys.argv[1:]
+    zkQuorum, topic, stream_window, RDB_TABLE = sys.argv[1:]
     stream_window = int(stream_window)
     
     sc = SparkContext(appName="PythonStreamingKafkaSums")
@@ -41,7 +41,8 @@ if __name__ == "__main__":
         #print('index: ' + str(index))
         connection = createNewConnection()#todo: use-connection-pool
         #print('count' + str(count))
-        r.table(RDB_TABLE).filter(r.row["partition"] == index).update({"count": count}).run(connection)
+        #r.table(RDB_TABLE).filter(r.row["partition"] == index).update({"count": count}).run(connection)
+        r.table(RDB_TABLE).insert({"partition":index, "count": count, "time":time.time()}).run(connection)
         connection.close()
     def sendPartition(iter):
         connection = createNewConnection()#todo: use-connection-pool
