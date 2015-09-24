@@ -56,11 +56,11 @@ if __name__ == "__main__":
             print("-------##########################----------")
             print(rdd.getNumPartitions())
             print("-------##########################----------")
-
-    kafkaStreams[0].foreachRDD(lambda rdd: sendPartitionCount(0,rdd.count()))
-    kafkaStreams[1].foreachRDD(lambda rdd: sendPartitionCount(1,rdd.count()))
-    kafkaStreams[2].foreachRDD(lambda rdd: sendPartitionCount(2,rdd.count()))
-    kafkaStreams[3].foreachRDD(lambda rdd: sendPartitionCount(3,rdd.count()))
+    repartition_size = 6;
+    kafkaStreams[0].repartition(repartition_size).foreachRDD(lambda rdd: sendPartitionCount(0,rdd.count()))
+    kafkaStreams[1].repartition(repartition_size).foreachRDD(lambda rdd: sendPartitionCount(1,rdd.count()))
+    kafkaStreams[2].repartition(repartition_size).foreachRDD(lambda rdd: sendPartitionCount(2,rdd.count()))
+    kafkaStreams[3].repartition(repartition_size).foreachRDD(lambda rdd: sendPartitionCount(3,rdd.count()))
     #kkvvss.foreachRDD(lambda rdd: sendPartitionCount(0,rdd.count()))
     for idx,kvs in enumerate(kafkaStreams):
         #kvs.foreachRDD(printParts)
