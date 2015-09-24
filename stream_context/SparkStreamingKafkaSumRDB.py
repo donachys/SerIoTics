@@ -56,7 +56,7 @@ if __name__ == "__main__":
             print("-------##########################----------")
             print(rdd.getNumPartitions())
             print("-------##########################----------")
-    repartition_size = 6;
+    repartition_size = 12;
     kafkaStreams[0].repartition(repartition_size).foreachRDD(lambda rdd: sendPartitionCount(0,rdd.count()))
     kafkaStreams[1].repartition(repartition_size).foreachRDD(lambda rdd: sendPartitionCount(1,rdd.count()))
     kafkaStreams[2].repartition(repartition_size).foreachRDD(lambda rdd: sendPartitionCount(2,rdd.count()))
