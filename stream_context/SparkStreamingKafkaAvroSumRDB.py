@@ -9,7 +9,7 @@ from pyspark.streaming.kafka import KafkaUtils
 
 import avro.schema
 from avro.datafile import DataFileReader, DataFileWriter
-from avro.io import DatumReader, DatumWriter, BinaryDecoder, BytesIO
+from avro.io import DatumReader, DatumWriter, BinaryDecoder
 
 import rethinkdb as r
 import json
