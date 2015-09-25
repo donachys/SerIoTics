@@ -9,7 +9,7 @@ from pyspark.streaming.kafka import KafkaUtils
 
 import avro.schema
 from avro.datafile import DataFileReader, DataFileWriter
-from avro.io import DatumReader, DatumWriter
+from avro.io import DatumReader, DatumWriter, BinaryDecoder
 
 import rethinkdb as r
 import json
@@ -32,12 +32,12 @@ if __name__ == "__main__":
 
     
     streams = []
-    
-    numStreams = 4
-    kafkaStreams = [KafkaUtils.createStream(ssc, zkQuorum, "avro-topic1-consumer", {topic: 1}) for _ in range (numStreams)]
     schema = avro.schema.parse(open("WaterSensor.avsc").read())
     reader = DatumReader(schema, schema)
     decoder = BinaryDecoder(reader)
+    numStreams = 4
+    kafkaStreams = [KafkaUtils.createStream(ssc, zkQuorum, "avro-topic1-consumer", valueDecoder=decoder.read, {topic: 1}) for _ in range (numStreams)]
+    
     #kvs = kafkaStreams[1]
     #kkvvss = ssc.union(*kafkaStreams)#.partitionBy(numPartitions=20)
     #kvs.print()
