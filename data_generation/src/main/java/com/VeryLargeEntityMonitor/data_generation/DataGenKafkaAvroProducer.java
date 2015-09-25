@@ -33,6 +33,7 @@ public class DataGenKafkaAvroProducer{
             props.put("bootstrap.servers", "ec2-54-219-131-191.us-west-1.compute.amazonaws.com:9092,ec2-54-219-135-236.us-west-1.compute.amazonaws.com:9092,ec2-54-219-166-112.us-west-1.compute.amazonaws.com:9092,ec2-54-219-135-254.us-west-1.compute.amazonaws.com:9092");
             props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
             //props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+            props.put("compression.type", "gzip");
             props.put("value.serializer", "org.apache.kafka.common.serialization.ByteArraySerializer");
             props.put("acks", "1");
 
