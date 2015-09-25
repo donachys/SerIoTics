@@ -36,7 +36,7 @@ if __name__ == "__main__":
     reader = DatumReader(schema, schema)
     decoder = BinaryDecoder(reader)
     numStreams = 4
-    kafkaStreams = [KafkaUtils.createStream(ssc, zkQuorum, "avro-topic1-consumer", keyDecoder=pyspark.streaming.kafka.utf8_decoder, valueDecoder=decoder.read_bytes, {topic: 1}) for _ in range (numStreams)]
+    kafkaStreams = [KafkaUtils.createStream(ssc=ssc, zkQuorum=zkQuorum, groupId="avro-topic1-consumer", keyDecoder=pyspark.streaming.kafka.utf8_decoder, valueDecoder=decoder.read_bytes, {topic: 1}) for _ in range (numStreams)]
     
     #kvs = kafkaStreams[1]
     #kkvvss = ssc.union(*kafkaStreams)#.partitionBy(numPartitions=20)
