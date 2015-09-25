@@ -35,6 +35,9 @@ if __name__ == "__main__":
     
     numStreams = 4
     kafkaStreams = [KafkaUtils.createStream(ssc, zkQuorum, "avro-topic1-consumer", {topic: 1}) for _ in range (numStreams)]
+    schema = avro.schema.parse(open("WaterSensor.avsc").read())
+    reader = DatumReader(schema, schema)
+    decoder = BinaryDecoder(reader)
     #kvs = kafkaStreams[1]
     #kkvvss = ssc.union(*kafkaStreams)#.partitionBy(numPartitions=20)
     #kvs.print()
@@ -76,9 +79,11 @@ if __name__ == "__main__":
     # kafkaStreams[2].foreachRDD(lambda rdd: sendPartitionCount(2,rdd.count()))
     # kafkaStreams[3].foreachRDD(lambda rdd: sendPartitionCount(3,rdd.count()))
     #kkvvss.foreachRDD(lambda rdd: sendPartitionCount(0,rdd.count()))
+
     for idx,kvs in enumerate(kafkaStreams):
         #kvs.foreachRDD(printParts)
-        records = kvs.map(lambda x: json.loads(x[1]))
+        #records = kvs.map(lambda x: json.loads(x[1]))
+        records = kvs.map(lambda x: reader.read(x[1], decoder))
         sums = records.map(lambda obj: (obj['unique_id'], obj['quantity'])) \
             .reduceByKey(lambda a, b: a+b)
         kvs.foreachRDD(lambda rdd: sendRDDCount(rdd.count()));
