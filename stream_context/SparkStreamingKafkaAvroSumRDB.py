@@ -9,16 +9,16 @@ from pyspark.streaming.kafka import KafkaUtils
 
 import avro.schema
 from avro.datafile import DataFileReader, DataFileWriter
-from avro.io import DatumReader, DatumWriter, BinaryDecoder
+from avro.io import DatumReader, DatumWriter, BinaryDecoder, BytesIO
 
 import rethinkdb as r
 import json
 import os
-
+import io
 
 if __name__ == "__main__":
     if len(sys.argv) != 5:
-        print("Usage: SparkStreamingKafkaSumRDB.py <zk> <topic> <window size (sec)> <tablename>", file=sys.stderr)
+        print("Usage: SparkStreamingKafkaAvroSumRDB.py <zk> <topic> <window size (sec)> <tablename>", file=sys.stderr)
         exit(-1)
 
     RDB_HOST =  os.environ.get('RDB_HOST')
@@ -33,10 +33,10 @@ if __name__ == "__main__":
     
     streams = []
     schema = avro.schema.parse(open("WaterSensor.avsc").read())
-    reader = DatumReader(schema, schema)
-    decoder = BinaryDecoder(reader)
+    reader = DatumReader(schema)
     numStreams = 4
-    kafkaStreams = [KafkaUtils.createStream(ssc=ssc, zkQuorum=zkQuorum, groupId="avro-topic1-consumer", valueDecoder=decoder.read_bytes, topics={topic: 1}) for _ in range (numStreams)]
+
+    kafkaStreams = [KafkaUtils.createStream(ssc=ssc, zkQuorum=zkQuorum, groupId="avro-topic1-consumer", valueDecoder=io.BytesIO, topics={topic: 1}) for _ in range (numStreams)]
     
     #kvs = kafkaStreams[1]
     #kkvvss = ssc.union(*kafkaStreams)#.partitionBy(numPartitions=20)
@@ -74,6 +74,9 @@ if __name__ == "__main__":
             print("-------##########################----------")
             print(rdd.getNumPartitions())
             print("-------##########################----------")
+    def bytesDecoder(x):
+        decoder = BinaryDecoder(x)
+        return reader.read(x, decoder)
     # kafkaStreams[0].foreachRDD(lambda rdd: sendPartitionCount(0,rdd.count()))
     # kafkaStreams[1].foreachRDD(lambda rdd: sendPartitionCount(1,rdd.count()))
     # kafkaStreams[2].foreachRDD(lambda rdd: sendPartitionCount(2,rdd.count()))
@@ -83,7 +86,7 @@ if __name__ == "__main__":
     for idx,kvs in enumerate(kafkaStreams):
         #kvs.foreachRDD(printParts)
         #records = kvs.map(lambda x: json.loads(x[1]))
-        records = kvs.map(lambda x: reader.read(x[1], decoder))
+        records = kvs.map(lambda x: bytesDecoder(x[1]))
         sums = records.map(lambda obj: (obj['unique_id'], obj['quantity'])) \
             .reduceByKey(lambda a, b: a+b)
         kvs.foreachRDD(lambda rdd: sendRDDCount(rdd.count()));
