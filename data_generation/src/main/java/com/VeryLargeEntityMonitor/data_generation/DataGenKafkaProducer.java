@@ -53,7 +53,7 @@ public class DataGenKafkaProducer{
                             String key = tempMC.minors.get(j).getMajorMinor();
                             String msg = tempMC.minors.get(j).getMessageAsJSON();
                             //System.out.println("key: " + key + " msg: " + msg);
-                            ProducerRecord<String, String> data = new ProducerRecord<String, String>("my-topic3", key, msg);
+                            ProducerRecord<String, String> data = new ProducerRecord<String, String>("json-topic1", key, msg);
                             producer.send(data);
                         }
                     }
