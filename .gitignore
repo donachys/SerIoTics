@@ -1,2 +1,4 @@
 data_generation/target
 stream_storage/target
+JSON_producer/target
+Avro_producer/target
