@@ -2,7 +2,6 @@ package com.SerIoTics.data_generation;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
-//import com.google.gson.Gson;
 import static java.util.concurrent.TimeUnit.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -44,8 +43,8 @@ public class DataGenKafkaAvroProducer{
             for(int i=0; i<NUM_MAJOR; i++){
                 major_categories.add(new MajorCategory(seed, MajorType.HUMANITARIAN, i));
             }
-            final Runnable sendData = new Runnable() {
-                public void run() { 
+            final Runnable sendData = new Runnable(){
+                public void run(){ 
                     //iterate through MajorCategories
                     for(int i=0; i<major_categories.size(); i++){
                         //iterate through MinorCategories
