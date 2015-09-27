@@ -1,0 +1,17 @@
+{"namespace": "com.SerIoTics.data_generation",
+ "type": "record",
+ "name": "WaterSensor",
+ "fields": [
+     {"name": "quantity", "type": "float"},
+     {"name": "major_area_num", "type": "int"},
+     {"name": "minor_area_num", "type": "int"},
+     {"name": "time_since_turn_on", "type": "int"},
+     {"name": "unique_id", "type": "long"},
+     {"name": "runtime", "type": "long"},
+     {"name": "minType",  "type": "string"},
+     {"name": "majType",  "type": "string"},
+     {"name": "item_sensed",  "type": "string"},
+     {"name": "subject_measured",  "type": "string"},
+     {"name": "sensor_location_name",  "type": "string"}
+ ]
+}
