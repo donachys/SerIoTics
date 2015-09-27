@@ -1,2 +1,2 @@
-# VeryLargeEntityMonitor
-Insight Data Engineering - Monitoring Large Entities (Buildings, Campuses, etc) using Internet of Things sensor technology
+# SerIoTics
+Insight Data Engineering - Serialization metrics in an Internet of Things environment
