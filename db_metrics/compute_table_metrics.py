@@ -11,9 +11,9 @@ if __name__ == "__main__":
     RDB_PORT = os.environ.get('RDB_PORT')
     RDB_DB = "SerIoTics"
     RDB_TABLE = sys.argv[1:]
-    connection = createNewConnection()
     def createNewConnection():
         return r.connect(host=RDB_HOST, port=RDB_PORT, db=RDB_DB)
+    connection = createNewConnection()
     def getStartTime():
         return r.table(RDB_TABLE).filter(r.row['count'].gt(0)).min('time').run(connection)
     def getStopTime():
