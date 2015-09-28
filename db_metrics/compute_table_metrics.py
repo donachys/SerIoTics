@@ -24,5 +24,5 @@ if __name__ == "__main__":
     	return (end_time-start_time)/num_records
 
 	connection = createNewConnection()
-    print(computeRecordsPerSecond())
+    print(computeRecordsPerSecond(getStartTime(), getStopTime(), getRecordCount()))
     connection.close()
