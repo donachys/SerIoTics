@@ -60,7 +60,7 @@ public class DataGenKafkaAvroProducer{
                             }
                             //System.out.println("key: " + key + " msg: " + msg);
                             //System.out.println("key: " + key + " Sending message in bytes : " + msg);
-                            ProducerRecord<String, byte[]> data = new ProducerRecord<String, byte[]>("avro-topic1", key, msg);
+                            ProducerRecord<String, byte[]> data = new ProducerRecord<String, byte[]>("avro-topic2", key, msg);
                             producer.send(data);
                         }
                     }
