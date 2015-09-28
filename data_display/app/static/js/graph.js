@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	alert(title)
 	$(chart_id).highcharts({
 		chart: chart,
 		title: title,
