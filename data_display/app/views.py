@@ -22,7 +22,13 @@ def getRecordCount(RDB_TABLE, connection):
     return r.table(RDB_TABLE).filter(r.row['count'].gt(0)).sum('count').run(connection)
 def computeRecordsPerSecond(start_time, end_time, num_records):
     return num_records/(end_time-start_time)
-
+def getRecordsPerSecond(RDB_TABLE)
+    connection = createNewConnection()
+    start = getStartTime(RDB_TABLE, connection)
+    stop = getStopTime(RDB_TABLE, connection)
+    count = getRecordCount(RDB_TABLE, connection)
+    connection.close()
+    return computeRecordsPerSecond(start, stop, count)
 
 @app.route('/')
 def homepage():
@@ -49,10 +55,5 @@ def graph(chartID = 'chart_ID', chart_type = 'line', chart_height = 500):
     return render_template('graph.html', chartID=chartID, chart=chart, series=series, title=title, xAxis=xAxis, yAxis=yAxis)
 @app.route('/api/json_throughput')
 def json_throughput():
-    connection = createNewConnection();
-    start = getStartTime('json_test', connection)
-    stop = getStopTime('json_test', connection)
-    count = getRecordCount('json_test', connection)
-    jsonresponse = {"records_per_second": computeRecordsPerSecond(start, stop, count)}
-    connection.close()
+    jsonresponse = {"records_per_second": getRecordsPerSecond('json_test')}
     return jsonify(result = jsonresponse)
