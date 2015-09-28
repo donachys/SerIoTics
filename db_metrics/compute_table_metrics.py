@@ -1,3 +1,4 @@
+import sys
 import rethinkdb as r
 
 if __name__ == "__main__":
