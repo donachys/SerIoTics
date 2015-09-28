@@ -51,10 +51,9 @@ if __name__ == "__main__":
         connection.close()
     for idx,kvs in enumerate(kafkaStreams):
         records = kvs.map(lambda x: json.loads(x[1]))
-        count = records.count()
         sums = records.map(lambda obj: (obj['unique_id'], obj['quantity'])) \
             .reduceByKey(lambda a, b: a+b)
-        kvs.foreachRDD(lambda rdd: sendRDDCount(count))
+        kvs.foreachRDD(lambda rdd: sendRDDCount(rdd.count()))
 
     ssc.start()
     ssc.awaitTermination()
