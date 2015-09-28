@@ -15,11 +15,11 @@ if __name__ == "__main__":
     def createNewConnection():
         return r.connect(host=RDB_HOST, port=RDB_PORT, db=RDB_DB)
     def getStartTime():
-    	return r.table(RDB_TABLE).filter(r.row('count').gt(0)).min('time')
+    	return r.table(RDB_TABLE).filter(r.row['count'].gt(0)).min('time')
     def getStopTime():
-    	return r.table(RDB_TABLE).filter(r.row('count').gt(0)).max('time')
+    	return r.table(RDB_TABLE).filter(r.row['count'].gt(0)).max('time')
     def getRecordCount():
-    	return r.table(RDB_TABLE).filter(r.row('count').gt(0)).sum('count')
+    	return r.table(RDB_TABLE).filter(r.row['count'].gt(0)).sum('count')
     def computeRecordsPerSecond(start_time, end_time, num_records):
     	return (end_time-start_time)/num_records
 
