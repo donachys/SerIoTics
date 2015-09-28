@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$('#chart_id').highcharts({
+	$(chart_id).highcharts({
 		chart: chart,
 		title: title,
 		xAxis: xAxis,
