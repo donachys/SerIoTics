@@ -11,18 +11,18 @@ if __name__ == "__main__":
     RDB_PORT = os.environ.get('RDB_PORT')
     RDB_DB = "SerIoTics"
     RDB_TABLE = sys.argv[1:]
-
+    connection = createNewConnection()
     def createNewConnection():
         return r.connect(host=RDB_HOST, port=RDB_PORT, db=RDB_DB)
     def getStartTime():
-        return r.table(RDB_TABLE).filter(r.row['count'].gt(0)).min('time')
+        return r.table(RDB_TABLE).filter(r.row['count'].gt(0)).min('time').run(connection)
     def getStopTime():
-        return r.table(RDB_TABLE).filter(r.row['count'].gt(0)).max('time')
+        return r.table(RDB_TABLE).filter(r.row['count'].gt(0)).max('time').run(connection)
     def getRecordCount():
-        return r.table(RDB_TABLE).filter(r.row['count'].gt(0)).sum('count')
+        return r.table(RDB_TABLE).filter(r.row['count'].gt(0)).sum('count').run(connection)
     def computeRecordsPerSecond(start_time, end_time, num_records):
         return (end_time-start_time)/num_records
 
-    connection = createNewConnection()
+    
     print(computeRecordsPerSecond(getStartTime(), getStopTime(), getRecordCount()))
     connection.close()
