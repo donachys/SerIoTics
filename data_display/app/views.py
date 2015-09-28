@@ -1,12 +1,30 @@
-#changes are highlighted in blue
+import sys
+import rethinkdb as r
+import os
+import io
 
 from flask import jsonify 
 from flask import render_template
 from flask import Flask
-#jsonify creates a json representation of the response
+
 from app import app
 
-#change the bolded text to the keyspace which has the table you want to query. Same as above for < or > and quotations. In this case, it will be playground.
+RDB_HOST =  os.environ.get('RDB_HOST')
+RDB_PORT = os.environ.get('RDB_PORT')
+RDB_DB = "SerIoTics"
+def createNewConnection():
+    return r.connect(host=RDB_HOST, port=RDB_PORT, db=RDB_DB)
+connection = createNewConnection()
+def getStartTime(RDB_TABLE):
+    return r.table(RDB_TABLE).filter(r.row['count'].gt(0)).min('time').run(connection)['time']
+def getStopTime(RDB_TABLE):
+    return r.table(RDB_TABLE).filter(r.row['count'].gt(0)).max('time').run(connection)['time']
+def getRecordCount(RDB_TABLE):
+    return r.table(RDB_TABLE).filter(r.row['count'].gt(0)).sum('count').run(connection)
+def computeRecordsPerSecond(start_time, end_time, num_records):
+    return num_records/(end_time-start_time)
+
+
 @app.route('/')
 def homepage():
 
@@ -30,3 +48,17 @@ def graph(chartID = 'chart_ID', chart_type = 'line', chart_height = 500):
     xAxis = {"categories": ['xAxis Data1', 'xAxis Data2', 'xAxis Data3']}
     yAxis = {"title": {"text": 'yAxis Label'}}
     return render_template('graph.html', chartID=chartID, chart=chart, series=series, title=title, xAxis=xAxis, yAxis=yAxis)
+@app.route('/api/json_throughput')
+def json_throughput():
+    start = getStartTime('json_test')
+    stop = getStopTime('json_test')
+    count = getRecordCount('json_test')
+    jsonresponse = {"records_per_second": computeRecordsPerSecond(start, stop, count)}
+    return jsonify(records_per_second = jsonresponse)
+    
+
+
+
+
+print(computeRecordsPerSecond(getStartTime(), getStopTime(), getRecordCount()))
+connection.close()
