@@ -4,7 +4,7 @@ import os
 import io
 
 if __name__ == "__main__":
-    if len(sys.argv) != 1:
+    if len(sys.argv) != 2:
         print("Usage: compute_table_metrics.py <tablename>")
         exit(-1)
     RDB_HOST =  os.environ.get('RDB_HOST')
