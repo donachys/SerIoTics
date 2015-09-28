@@ -55,4 +55,4 @@ def json_throughput():
     count = getRecordCount('json_test', connection)
     jsonresponse = {"records_per_second": computeRecordsPerSecond(start, stop, count)}
     connection.close()
-    return jsonify(records_per_second = jsonresponse)
+    return jsonify(result = jsonresponse)
