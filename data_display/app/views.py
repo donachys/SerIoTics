@@ -14,12 +14,11 @@ RDB_PORT = os.environ.get('RDB_PORT')
 RDB_DB = "SerIoTics"
 def createNewConnection():
     return r.connect(host=RDB_HOST, port=RDB_PORT, db=RDB_DB)
-connection = createNewConnection()
-def getStartTime(RDB_TABLE):
+def getStartTime(RDB_TABLE, connection):
     return r.table(RDB_TABLE).filter(r.row['count'].gt(0)).min('time').run(connection)['time']
-def getStopTime(RDB_TABLE):
+def getStopTime(RDB_TABLE, connection):
     return r.table(RDB_TABLE).filter(r.row['count'].gt(0)).max('time').run(connection)['time']
-def getRecordCount(RDB_TABLE):
+def getRecordCount(RDB_TABLE, connection):
     return r.table(RDB_TABLE).filter(r.row['count'].gt(0)).sum('count').run(connection)
 def computeRecordsPerSecond(start_time, end_time, num_records):
     return num_records/(end_time-start_time)
@@ -50,15 +49,10 @@ def graph(chartID = 'chart_ID', chart_type = 'line', chart_height = 500):
     return render_template('graph.html', chartID=chartID, chart=chart, series=series, title=title, xAxis=xAxis, yAxis=yAxis)
 @app.route('/api/json_throughput')
 def json_throughput():
-    start = getStartTime('json_test')
-    stop = getStopTime('json_test')
-    count = getRecordCount('json_test')
+    connection = createNewConnection();
+    start = getStartTime('json_test', connection)
+    stop = getStopTime('json_test', connection)
+    count = getRecordCount('json_test', connection)
     jsonresponse = {"records_per_second": computeRecordsPerSecond(start, stop, count)}
+    connection.close()
     return jsonify(records_per_second = jsonresponse)
-    
-
-
-
-
-print(computeRecordsPerSecond(getStartTime(), getStopTime(), getRecordCount()))
-connection.close()
