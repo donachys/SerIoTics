@@ -22,7 +22,7 @@ def getRecordCount(RDB_TABLE, connection):
     return r.table(RDB_TABLE).filter(r.row['count'].gt(0)).sum('count').run(connection)
 def computeRecordsPerSecond(start_time, end_time, num_records):
     return num_records/(end_time-start_time)
-def getRecordsPerSecond(RDB_TABLE)
+def getRecordsPerSecond(RDB_TABLE):
     connection = createNewConnection()
     start = getStartTime(RDB_TABLE, connection)
     stop = getStopTime(RDB_TABLE, connection)
