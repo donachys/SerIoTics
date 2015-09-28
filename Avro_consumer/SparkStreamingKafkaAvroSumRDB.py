@@ -30,6 +30,8 @@ if __name__ == "__main__":
     sc = SparkContext(appName="PythonStreamingKafkaAvroSums")
     ssc = StreamingContext(sc, batchDuration=stream_window)
 
+    def createNewConnection():
+        return r.connect(host=RDB_HOST, port=RDB_PORT, db=RDB_DB)
     #delete any data in table
     connection = createNewConnection()
     r.table(RDB_TABLE).delete()
@@ -38,7 +40,7 @@ if __name__ == "__main__":
     streams = []
     schema = avro.schema.parse(open("WaterSensor.avsc").read())
     reader = DatumReader(schema)
-    numStreams = 4
+    numStreams = 6
 
     kafkaStreams = [KafkaUtils.createStream(ssc=ssc, zkQuorum=zkQuorum, groupId="Avro-consumer", valueDecoder=io.BytesIO, topics={topic: 1}) for _ in range (numStreams)]
     def sendRDDCount(count):
@@ -54,8 +56,6 @@ if __name__ == "__main__":
         for record in iter:
             r.table(RDB_TABLE).insert(json.loads(record[1])).run(connection)
         connection.close()
-    def createNewConnection():
-        return r.connect(host=RDB_HOST, port=RDB_PORT, db=RDB_DB)
     def bytesDecoder(x):
         decoder = BinaryDecoder(x)
         return reader.read(x, decoder)

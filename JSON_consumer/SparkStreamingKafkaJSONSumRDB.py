@@ -25,7 +25,8 @@ if __name__ == "__main__":
     
     sc = SparkContext(appName="PythonStreamingKafkaJSONSums")
     ssc = StreamingContext(sc, batchDuration=stream_window)
-
+    def createNewConnection():
+        return r.connect(host=RDB_HOST, port=RDB_PORT, db=RDB_DB)
     #delete any data in table
     connection = createNewConnection()
     r.table(RDB_TABLE).delete()
@@ -33,7 +34,7 @@ if __name__ == "__main__":
     
     streams = []
     
-    numStreams = 4
+    numStreams = 6
     kafkaStreams = [KafkaUtils.createStream(ssc, zkQuorum, "JSON-consumer", {topic: 1}) for _ in range (numStreams)]
 
     def sendRDDCount(count):
@@ -48,8 +49,6 @@ if __name__ == "__main__":
         for record in iter:
             r.table(RDB_TABLE).insert(json.loads(record[1])).run(connection)
         connection.close()
-    def createNewConnection():
-        return r.connect(host=RDB_HOST, port=RDB_PORT, db=RDB_DB)
     for idx,kvs in enumerate(kafkaStreams):
         records = kvs.map(lambda x: json.loads(x[1]))
         count = records.count()
