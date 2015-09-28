@@ -30,6 +30,10 @@ if __name__ == "__main__":
     sc = SparkContext(appName="PythonStreamingKafkaAvroSums")
     ssc = StreamingContext(sc, batchDuration=stream_window)
 
+    #delete any data in table
+    connection = createNewConnection()
+    r.table(RDB_TABLE).delete()
+    connection.close()
     
     streams = []
     schema = avro.schema.parse(open("WaterSensor.avsc").read())
@@ -57,10 +61,12 @@ if __name__ == "__main__":
         return reader.read(x, decoder)
 
     for idx,kvs in enumerate(kafkaStreams):
+
         records = kvs.map(lambda x: bytesDecoder(x[1]))
+        count = records.count()
         sums = records.map(lambda obj: (obj['unique_id'], obj['quantity'])) \
             .reduceByKey(lambda a, b: a+b)
-        kvs.foreachRDD(lambda rdd: sendRDDCount(rdd.count()));
+        kvs.foreachRDD(lambda rdd: sendRDDCount(count))
 
     ssc.start()
     ssc.awaitTermination()
