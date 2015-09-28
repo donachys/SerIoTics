@@ -3,7 +3,7 @@ import rethinkdb as r
 
 if __name__ == "__main__":
     if len(sys.argv) != 1:
-        print("Usage: compute_table_metrics.py <tablename>", file=sys.stderr)
+        print("Usage: compute_table_metrics.py <tablename>")
         exit(-1)
     RDB_HOST =  os.environ.get('RDB_HOST')
     RDB_PORT = os.environ.get('RDB_PORT')
