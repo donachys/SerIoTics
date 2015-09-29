@@ -1,0 +1,1 @@
+ssh master 'bash -s' < json_spark_kill.sh
