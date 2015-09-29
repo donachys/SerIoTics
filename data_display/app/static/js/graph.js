@@ -15,7 +15,7 @@ $(function () {
                     var series = this.series[0];
                     setInterval(function () {
                         var x = (new Date()).getTime(), // current time
-                            y = $.getJSON('http://ec2-52-26-108-249.us-west-2.compute.amazonaws.com:5000/graph', function(data){series.addPoint([data.result.records_per_second, y], true, true);});                        
+                            y = $.getJSON('http://ec2-52-26-108-249.us-west-2.compute.amazonaws.com:5000/api/json_throughput', function(data){series.addPoint([data.result.records_per_second, y], true, true);});                        
                     }, 1000);
                 }
             }
