@@ -79,7 +79,7 @@ def json_run(execute):
                                 stdin=subprocess.PIPE)
         out,err = p.communicate()
         return out
-@app.route('api/json_run_producer')
+@app.route('/api/json_run_producer')
 def json_run(execute):
     if(execute == "true"):
         cmd = ["bash","json_start_prod.sh"]
