@@ -54,18 +54,18 @@ def json_throughput():
     jsonresponse = {"records_per_second": getRecordsPerSecond('json_test')}
     return jsonify(result = jsonresponse)
 @app.route('/api/json_run/<execute>')
-    def json_run(execute):
-        if(execute):
-            cmd = ["ls","-l"]
-            p = subprocess.Popen(cmd, stdout = subprocess.PIPE,
-                                    stderr=subprocess.PIPE,
-                                    stdin=subprocess.PIPE)
-            out,err = p.communicate()
-            return out
-        else:
-            cmd = ["ps","aux"]
-            p = subprocess.Popen(cmd, stdout = subprocess.PIPE,
-                                    stderr=subprocess.PIPE,
-                                    stdin=subprocess.PIPE)
-            out,err = p.communicate()
-            return out
+def json_run(execute):
+    if(execute):
+        cmd = ["ls","-l"]
+        p = subprocess.Popen(cmd, stdout = subprocess.PIPE,
+                                stderr=subprocess.PIPE,
+                                stdin=subprocess.PIPE)
+        out,err = p.communicate()
+        return out
+    else:
+        cmd = ["ps","aux"]
+        p = subprocess.Popen(cmd, stdout = subprocess.PIPE,
+                                stderr=subprocess.PIPE,
+                                stdin=subprocess.PIPE)
+        out,err = p.communicate()
+        return out
