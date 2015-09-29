@@ -4,7 +4,24 @@ $(function () {
             useUTC : false
         }
     });
-
+    $('#JSONstart').click(function(){
+            start_url='http://ec2-52-26-108-249.us-west-2.compute.amazonaws.com:5000/api/json_run/true';
+            $.ajax({url: start_url, 
+                    cache: false,
+                    success: function(data){alert(data)
+                    }
+                }
+            );
+        });
+    $('#JSONstop').click(function(){
+            stop_url='http://ec2-52-26-108-249.us-west-2.compute.amazonaws.com:5000/api/json_run/false';
+            $.ajax({url: stop_url,
+                    cache: false,
+                    success: function(data){alert(data)
+                    }
+                }
+            );
+        });
     // Create the chart
     $('#container').highcharts('StockChart', {
         chart : {
@@ -13,10 +30,10 @@ $(function () {
 
                     // set up the updating of the chart each second
                     var series = this.series[0];
-                    url = 'http://ec2-52-26-108-249.us-west-2.compute.amazonaws.com:5000/api/json_throughput'
+                    tp_url = 'http://ec2-52-26-108-249.us-west-2.compute.amazonaws.com:5000/api/json_throughput'
 					setInterval(function () {
                         var x = (new Date()).getTime(), // current time
-                            y = $.getJSON(url, function(data){
+                            y = $.getJSON(tp_url, function(data){
                             	series.addPoint([x, data.result.records_per_second], true, true);
                     		});
                     }, 1000);
@@ -65,24 +82,4 @@ $(function () {
             }())
         }]
     });
-//$(document).ready(function(){
-        $('#JSONstart').click(function(){
-            url='http://ec2-52-26-108-249.us-west-2.compute.amazonaws.com:5000/api/json_run/true';
-            $.ajax({url: url, 
-                    cache: false,
-                    success: function(data){alert(data)
-                    }
-                }
-            );
-        });
-        $('#JSONstop').click(function(){
-            url='http://ec2-52-26-108-249.us-west-2.compute.amazonaws.com:5000/api/json_run/false';
-            $.ajax({url: url,
-                    cache: false,
-                    success: function(data){alert(data)
-                    }
-                }
-            );
-        });
-    //});
 });
