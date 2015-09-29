@@ -1,5 +1,12 @@
-$(document).ready(function() {
-	$(chart_id).highcharts('StockChart', {
+$(function () {
+    Highcharts.setOptions({
+        global : {
+            useUTC : false
+        }
+    });
+
+    // Create the chart
+    $('#container').highcharts('StockChart', {
         chart : {
             events : {
                 load : function () {
@@ -56,4 +63,5 @@ $(document).ready(function() {
             }())
         }]
     });
+
 });
