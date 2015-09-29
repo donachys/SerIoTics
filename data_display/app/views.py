@@ -35,6 +35,10 @@ def getRecordsPerSecond(RDB_TABLE):
     count = getRecordCount(RDB_TABLE, connection)
     connection.close()
     return computeRecordsPerSecond(start, stop, count)
+def emptyTable(RDB_TABLE):
+    connection = createNewConnection()
+    r.table(RDB_TABLE).delete().run(connection)
+    connection.close()
 
 @app.route('/')
 def homepage():
@@ -53,6 +57,7 @@ def index():
    return render_template("index.html", title = 'Home', user = user, mylist = mylist)
 @app.route('/super_secret/json_demo')
 def json_demo():
+    emptyTable('json_test')
     return render_template('json_demo.html')
 @app.route('/api/json_throughput')
 def json_throughput():
