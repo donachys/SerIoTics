@@ -65,5 +65,24 @@ $(function () {
             }())
         }]
     });
-
+//$(document).ready(function(){
+        $('#JSONstart').click(function(){
+            url='http://ec2-52-26-108-249.us-west-2.compute.amazonaws.com:5000/api/json_run/true';
+            $.ajax({url: url, 
+                    cache: false,
+                    success: function(data){alert(data)
+                    }
+                }
+            );
+        });
+        $('#JSONstop').click(function(){
+            url='http://ec2-52-26-108-249.us-west-2.compute.amazonaws.com:5000/api/json_run/false';
+            $.ajax({url: url,
+                    cache: false,
+                    success: function(data){alert(data)
+                    }
+                }
+            );
+        });
+    //});
 });
