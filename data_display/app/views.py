@@ -80,7 +80,7 @@ def json_run(execute):
         out,err = p.communicate()
         return out
 @app.route('/api/json_run_producer')
-def json_run(execute):
+def json_run_producer(execute):
     if(execute == "true"):
         cmd = ["bash","json_start_prod.sh"]
         p = subprocess.Popen(cmd, stdout = subprocess.PIPE,
