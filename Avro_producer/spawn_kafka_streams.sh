@@ -9,5 +9,5 @@ do
     echo $ID
     TEMPSEED=$((($ID*1000)+$SEED))
     tmux new-window -t $ID
-    tmux send-keys -t $SESSION:$ID 'java -jar target/SerIoTics_data_generation-1.0.jar '"$TEMPSEED"' 5 60' C-m
+    tmux send-keys -t $SESSION:$ID 'java -jar ~/SerIoTics/Avro_producer/target/SerIoTics_data_generation-1.0.jar '"$TEMPSEED"' 5 60' C-m
 done
