@@ -13,6 +13,7 @@ from app import app
 RDB_HOST =  os.environ.get('RDB_HOST')
 RDB_PORT = os.environ.get('RDB_PORT')
 RDB_DB = "SerIoTics"
+default_response = {"time":0}
 def createNewConnection():
     return r.connect(host=RDB_HOST, port=RDB_PORT, db=RDB_DB)
 def getStartTime(RDB_TABLE, connection):
