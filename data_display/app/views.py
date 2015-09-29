@@ -60,7 +60,7 @@ def json_throughput():
     return jsonify(result = jsonresponse)
 @app.route('/api/json_run/<execute>')
 def json_run(execute):
-    if(execute):
+    if(execute == "true"):
         cmd = ["bash","json_start.sh"]
         p = subprocess.Popen(cmd, stdout = subprocess.PIPE,
                                 stderr=subprocess.PIPE,
