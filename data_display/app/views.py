@@ -51,9 +51,9 @@ def index():
    user = { 'nickname' : 'Miguel' } #fake user detected!
    mylist = [1,2,3,4]
    return render_template("index.html", title = 'Home', user = user, mylist = mylist)
-@app.route('/graph')
-def graph():
-    return render_template('graph.html')
+@app.route('/super_secret/json_demo')
+def json_demo():
+    return render_template('json_demo.html')
 @app.route('/api/json_throughput')
 def json_throughput():
     jsonresponse = {"records_per_second": getRecordsPerSecond('json_test')}
