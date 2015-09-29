@@ -1,6 +1,7 @@
 import sys
 import rethinkdb as r
 import os
+import subprocess
 import io
 
 from flask import jsonify 
