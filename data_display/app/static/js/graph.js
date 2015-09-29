@@ -15,7 +15,7 @@ $(function () {
                     var url = 'http://ec2-52-26-108-249.us-west-2.compute.amazonaws.com:5000/api/json_throughput';
                     setInterval(function () {
                         var x = (new Date()).getTime(), // current time
-                            y = $.getJSON(url, function(data){series.addPoint([x, data.result.records_per_second], true, true);
+                            y = $.getJSON(url, function(data){series.addPoint([x, data.result.records_per_second], true, true));
                     });
                 }
             }
