@@ -34,7 +34,7 @@ if __name__ == "__main__":
         return r.connect(host=RDB_HOST, port=RDB_PORT, db=RDB_DB)
     #delete any data in table
     connection = createNewConnection()
-    r.table(RDB_TABLE).delete()
+    r.table(RDB_TABLE).delete().run(connection)
     connection.close()
     
     streams = []

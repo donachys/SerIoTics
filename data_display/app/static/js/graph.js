@@ -10,13 +10,13 @@ $(function () {
         chart : {
             events : {
                 load : function () {
-
                     // set up the updating of the chart each second
                     var series = this.series[0];
+                    var url = 'http://ec2-52-26-108-249.us-west-2.compute.amazonaws.com:5000/api/json_throughput';
                     setInterval(function () {
                         var x = (new Date()).getTime(), // current time
-                            y = $.getJSON('http://ec2-52-26-108-249.us-west-2.compute.amazonaws.com:5000/api/json_throughput', function(data){series.addPoint([data.result.records_per_second, y], true, true);});                        
-                    }, 1000);
+                            y = $.getJSON(url, function(data){series.addPoint([x, data.result.records_per_second], true, true);
+                    });
                 }
             }
         },
