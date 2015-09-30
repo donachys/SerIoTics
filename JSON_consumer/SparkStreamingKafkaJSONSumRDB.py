@@ -50,10 +50,13 @@ if __name__ == "__main__":
             r.table(RDB_TABLE).insert(json.loads(record[1])).run(connection)
         connection.close()
     for idx,kvs in enumerate(kafkaStreams):
-        records = kvs.map(lambda x: json.loads(x[1]))
+        countsDstream=kvs.count()
+        records = kvs.map(lambda x: bytesDecoder(x[1]))
         sums = records.map(lambda obj: (obj['unique_id'], obj['quantity'])) \
             .reduceByKey(lambda a, b: a+b)
-        kvs.foreachRDD(lambda rdd: sendRDDCount(rdd.count()))
+        timedDstream = countsDstream.map(lambda rdd: {"time":time.time(), "count":rdd})
+        timedDstream.pprint()
+        sendRDDCount(timedDstream)
 
     ssc.start()
     ssc.awaitTermination()
