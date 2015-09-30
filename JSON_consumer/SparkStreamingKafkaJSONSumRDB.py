@@ -57,7 +57,7 @@ if __name__ == "__main__":
             .reduceByKey(lambda a, b: a+b)
         #timedDstream = countsDstream.map(lambda rdd: {"time":time.time(), "count":rdd})
         #timedDstream.pprint()
-        timedDstream.foreachRDD(lambda rdd: sendRDDCount(rdd.take(1)))
+        countsDstream.foreachRDD(lambda rdd: sendRDDCount(rdd.take(1)))
 
     ssc.start()
     ssc.awaitTermination()
