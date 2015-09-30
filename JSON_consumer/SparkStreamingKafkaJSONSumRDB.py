@@ -39,7 +39,8 @@ if __name__ == "__main__":
 
     def sendRDDCount(count):
         connection = createNewConnection()
-        r.table(RDB_TABLE).insert({"count": count, "time":time.time()}).run(connection)
+        r.table(RDB_TABLE).insert(count).run(connection)
+        connection.close()
     def sendPartitionCount(index, count):
         connection = createNewConnection()
         r.table(RDB_TABLE).insert({"partition":index, "count": count, "time":time.time()}).run(connection)
@@ -54,9 +55,9 @@ if __name__ == "__main__":
         records = kvs.map(lambda x: bytesDecoder(x[1]))
         sums = records.map(lambda obj: (obj['unique_id'], obj['quantity'])) \
             .reduceByKey(lambda a, b: a+b)
-        timedDstream = countsDstream.map(lambda rdd: {"time":time.time(), "count":rdd})
-        timedDstream.pprint()
-        sendRDDCount(timedDstream)
+        #timedDstream = countsDstream.map(lambda rdd: {"time":time.time(), "count":rdd})
+        #timedDstream.pprint()
+        timedDstream.foreachRDD(lambda rdd: sendRDDCount(rdd.take(1)))
 
     ssc.start()
     ssc.awaitTermination()
