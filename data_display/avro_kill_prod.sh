@@ -1,0 +1,1 @@
+tmux kill-session -t p1

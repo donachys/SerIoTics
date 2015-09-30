@@ -96,3 +96,44 @@ def json_run_producer(execute):
         out,err = p.communicate()
         return out
 
+@app.route('/super_secret/avro_demo')
+def json_demo():
+    emptyTable('avro_test')
+    return render_template('avro_demo.html')
+@app.route('/api/avro_throughput')
+def json_throughput():
+    jsonresponse = {"records_per_second": getRecordsPerSecond('avro_test')}
+    return jsonify(result = jsonresponse)
+@app.route('/api/avro_run/<execute>')
+def json_run(execute):
+    if(execute == "true"):
+        cmd = ["bash","avro_start.sh"]
+        p = subprocess.Popen(cmd, stdout = subprocess.PIPE,
+                                stderr=subprocess.PIPE,
+                                stdin=subprocess.PIPE)
+        out,err = p.communicate()
+        return out
+    else:
+        cmd = ["bash","avro_stop.sh"]
+        p = subprocess.Popen(cmd, stdout = subprocess.PIPE,
+                                stderr=subprocess.PIPE,
+                                stdin=subprocess.PIPE)
+        out,err = p.communicate()
+        return out
+@app.route('/api/avro_run_producer/<execute>')
+def json_run_producer(execute):
+    if(execute == "true"):
+        cmd = ["bash","avro_start_prod.sh"]
+        p = subprocess.Popen(cmd, stdout = subprocess.PIPE,
+                                stderr=subprocess.PIPE,
+                                stdin=subprocess.PIPE)
+        out,err = p.communicate()
+        return out
+    else:
+        cmd = ["bash","avro_stop_prod.sh"]
+        p = subprocess.Popen(cmd, stdout = subprocess.PIPE,
+                                stderr=subprocess.PIPE,
+                                stdin=subprocess.PIPE)
+        out,err = p.communicate()
+        return out
+
