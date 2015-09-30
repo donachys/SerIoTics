@@ -7,8 +7,7 @@ $(function () {
     $('#JSONstart').click(function(){
             start_url='http://ec2-52-26-108-249.us-west-2.compute.amazonaws.com:5000/api/json_run/true';
             $.ajax({url: start_url, 
-                    cache: false,
-                    success: function(data){alert(data)
+                    cache: false
                     }
                 }
             );
@@ -16,8 +15,7 @@ $(function () {
     $('#JSONstop').click(function(){
             stop_url='http://ec2-52-26-108-249.us-west-2.compute.amazonaws.com:5000/api/json_run/false';
             $.ajax({url: stop_url,
-                    cache: false,
-                    success: function(data){alert(data)
+                    cache: false
                     }
                 }
             );
@@ -25,8 +23,7 @@ $(function () {
     $('#JSONstartProducer').click(function(){
             start_url='http://ec2-52-26-108-249.us-west-2.compute.amazonaws.com:5000/api/json_run_producer/true';
             $.ajax({url: start_url, 
-                    cache: false,
-                    success: function(data){alert(data)
+                    cache: false
                     }
                 }
             );
@@ -34,8 +31,7 @@ $(function () {
     $('#JSONstopProducer').click(function(){
             stop_url='http://ec2-52-26-108-249.us-west-2.compute.amazonaws.com:5000/api/json_run_producer/false';
             $.ajax({url: stop_url,
-                    cache: false,
-                    success: function(data){alert(data)
+                    cache: false
                     }
                 }
             );
