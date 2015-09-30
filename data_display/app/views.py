@@ -97,15 +97,15 @@ def json_run_producer(execute):
         return out
 
 @app.route('/super_secret/avro_demo')
-def json_demo():
+def avro_demo():
     emptyTable('avro_test')
     return render_template('avro_demo.html')
 @app.route('/api/avro_throughput')
-def json_throughput():
+def avro_throughput():
     jsonresponse = {"records_per_second": getRecordsPerSecond('avro_test')}
     return jsonify(result = jsonresponse)
 @app.route('/api/avro_run/<execute>')
-def json_run(execute):
+def avro_run(execute):
     if(execute == "true"):
         cmd = ["bash","avro_start.sh"]
         p = subprocess.Popen(cmd, stdout = subprocess.PIPE,
@@ -121,7 +121,7 @@ def json_run(execute):
         out,err = p.communicate()
         return out
 @app.route('/api/avro_run_producer/<execute>')
-def json_run_producer(execute):
+def avro_run_producer(execute):
     if(execute == "true"):
         cmd = ["bash","avro_start_prod.sh"]
         p = subprocess.Popen(cmd, stdout = subprocess.PIPE,
