@@ -1,0 +1,1 @@
+ssh master 'bash -s' < avro_spark_submit.sh

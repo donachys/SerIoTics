@@ -1,0 +1,3 @@
+tmux new-session -s s1 -n bash -d
+tmux new-window -t 1
+tmux send-keys -t s1:1 '$SPARK_HOME/bin/spark-submit --master spark://ip-172-31-14-121:7077 --conf spark.eventLog.enabled=true --conf spark.eventLog.dir=hdfs://ip-172-31-14-121:9000/eventlogging --executor-memory 4000M --driver-memory 4000M --jars ~/SerIoTics/Avro_consumer/spark-streaming-kafka-assembly_2.10-1.5.0.jar ~/SerIoTics/Avro_consumer/SparkStreamingKafkaAvroSumRDB.py ip-172-31-14-121:2181 avro-topic2 5 avro_test' C-m
