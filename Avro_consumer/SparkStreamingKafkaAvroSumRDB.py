@@ -38,7 +38,7 @@ if __name__ == "__main__":
     connection.close()
     
     streams = []
-    schema = avro.schema.parse(open("~/SerIoTics/Avro_consumer/WaterSensor.avsc").read())
+    schema = avro.schema.parse(open("home/ubuntu/SerIoTics/Avro_consumer/WaterSensor.avsc").read())
     reader = DatumReader(schema)
     numStreams = 6
 
