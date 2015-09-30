@@ -52,11 +52,10 @@ if __name__ == "__main__":
         connection.close()
     for idx,kvs in enumerate(kafkaStreams):
         countsDstream=kvs.count()
+        countsDstream = countsDstream.map(lambda x: {"count":x, "time":time.time()})
         records = kvs.map(lambda x: bytesDecoder(x[1]))
         sums = records.map(lambda obj: (obj['unique_id'], obj['quantity'])) \
             .reduceByKey(lambda a, b: a+b)
-        #timedDstream = countsDstream.map(lambda rdd: {"time":time.time(), "count":rdd})
-        #timedDstream.pprint()
         countsDstream.foreachRDD(lambda rdd: sendRDDCount(rdd.take(1)))
 
     ssc.start()
