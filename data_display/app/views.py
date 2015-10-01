@@ -46,7 +46,7 @@ def index():
     title = "SerIoTics"
     return render_template("index.html", title = title)
 @app.route('/blog')
-def index():
+def blog():
     title = "SerIoTics"
     return render_template("blog.html", title = title)
 @app.route('/super_secret/json_demo')
