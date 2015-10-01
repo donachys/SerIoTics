@@ -5,28 +5,28 @@ $(function () {
         }
     });
     $('#Avrostart').click(function(){
-            start_url='http://seriotics.info/api/avro_run/true';
+            start_url='http://www.seriotics.info/api/avro_run/true';
             $.ajax({url: start_url, 
                     cache: false
                 }
             );
         });
     $('#Avrostop').click(function(){
-            stop_url='http://seriotics.info/api/avro_run/false';
+            stop_url='http://www.seriotics.info/api/avro_run/false';
             $.ajax({url: stop_url,
                     cache: false
                 }
             );
         });
     $('#AvrostartProducer').click(function(){
-            start_url='http://seriotics.info/api/avro_run_producer/true';
+            start_url='http://www.seriotics.info/api/avro_run_producer/true';
             $.ajax({url: start_url, 
                     cache: false
                 }
             );
         });
     $('#AvrostopProducer').click(function(){
-            stop_url='http://seriotics.info/api/avro_run_producer/false';
+            stop_url='http://www.seriotics.info/api/avro_run_producer/false';
             $.ajax({url: stop_url,
                     cache: false
                 }
@@ -40,7 +40,7 @@ $(function () {
 
                     // set up the updating of the chart each second
                     var series = this.series[0];
-                    tp_url = 'http://seriotics.info/api/avro_throughput'
+                    tp_url = 'http://www.seriotics.info/api/avro_throughput'
 					setInterval(function () {
                         var x = (new Date()).getTime(), // current time
                             y = $.getJSON(tp_url, function(data){
