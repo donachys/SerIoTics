@@ -45,6 +45,10 @@ def emptyTable(RDB_TABLE):
 def index():
     title = "SerIoTics"
     return render_template("index.html", title = title)
+@app.route('/blog')
+def index():
+    title = "SerIoTics"
+    return render_template("blog.html", title = title)
 @app.route('/super_secret/json_demo')
 def json_demo():
     emptyTable('json_test')
