@@ -52,8 +52,7 @@
 
       <div class="blog-header">
         <img src="../static/images/seriotics_logos/Seriotics_large.png" alt="SerIoTics" height="120" width="192"> 
-        <h1 class="blog-title">The Bootstrap Blog</h1>
-        <p class="lead blog-description">The official example template of creating a blog with Bootstrap.</p>
+        <p class="lead blog-description">Serialization metrics in an Internet of Things environment.</p>
       </div>
 
       <div class="row">
@@ -61,15 +60,27 @@
         <div class="col-sm-8 blog-main">
 
           <div class="blog-post">
-            <h2 class="blog-post-title">Sample blog post</h2>
-            <p class="blog-post-meta">January 1, 2014 by <a href="#">Mark</a></p>
+            <h2 class="blog-post-title">Evaluating Serialization Protocols</h2>
+            <p class="blog-post-meta">October 1, 2015 by <a href="#">Shaun Donachy</a></p>
 
-            <p>This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.</p>
+            <p>The "Internet of Things" (IoT) is on its way and it's going to bring a lot of data with it. By simulating a large facility with millions of sensors we can evaluate the effect of different serialization protocols on the throughput of a micro-batch streaming system.</p>
             <hr>
-            <p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
-            <blockquote>
+            <p>Serialization is important for passing data through a heterogenous environment in a language agnostic format. A serialization format can also give flexibility towards scheme changes as data needs change. Since there is so much data: reducing the size of that data will improve network performance, disk and memory accesses.</p>
+            <pre><code>
+            {
+              "minType":"BATHROOM",
+              "majType":"HUMANITARIAN", "major_area_num":19, "minor_area_num":436,
+              "quantity":3.7826,
+              "unique_id":1000, 
+              "runtime":1443200834318,
+              "item_sensed":"toilet", "subject_measured":"water",
+              "sensor_location_name":"bathroom",
+              "ticks_since_turn_on":0
+            }
+            </code></pre>
+            <!--<blockquote>
               <p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-            </blockquote>
+            </blockquote>-->
             <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
             <h2>Heading</h2>
             <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
