@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Blog Template for Bootstrap</title>
+    <title>SerIoTics</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../static/css/bootstrap.min.css" rel="stylesheet">
@@ -66,25 +66,48 @@
             <p>The "Internet of Things" (IoT) is on its way and it's going to bring a lot of data with it. By simulating a large facility with millions of sensors we can evaluate the effect of different serialization protocols on the throughput of a micro-batch streaming system.</p>
             <hr>
             <p>Serialization is important for passing data through a heterogenous environment in a language agnostic format. A serialization format can also give flexibility towards scheme changes as data needs change. Since there is so much data: reducing the size of that data will improve network performance, disk and memory accesses.</p>
+            <p>This JSON message in text form is about 265 bytes.</p>
             <pre><code>
             {
               "minType":"BATHROOM",
               "majType":"HUMANITARIAN", "major_area_num":19, "minor_area_num":436,
               "quantity":3.7826,
-              "unique_id":1000, 
+              "unique_id":1000,
               "runtime":1443200834318,
               "item_sensed":"toilet", "subject_measured":"water",
               "sensor_location_name":"bathroom",
               "ticks_since_turn_on":0
             }
             </code></pre>
+            <p>Avro schema are specified using a JSON format. Below is the schema used for encoding the JSON data shown above. Serializing it into a byte array with Avro makes it about 60 bytes.
+            <pre><code>
+            {"namespace": "com.SerIoTics.data_generation",
+             "type": "record",
+             "name": "WaterSensor",
+             "fields": [
+                 {"name": "quantity", "type": "float"},
+                 {"name": "major_area_num", "type": "int"},
+                 {"name": "minor_area_num", "type": "int"},
+                 {"name": "time_since_turn_on", "type": "int"},
+                 {"name": "unique_id", "type": "long"},
+                 {"name": "runtime", "type": "long"},
+                 {"name": "minType",  "type": "string"},
+                 {"name": "majType",  "type": "string"},
+                 {"name": "item_sensed",  "type": "string"},
+                 {"name": "subject_measured",  "type": "string"},
+                 {"name": "sensor_location_name",  "type": "string"}
+             ]
+            }
+            </code></pre>
+            Bundling the schema header along with the avro serialized byte-array results in a 540 byte message which actually increases the message size in this case.</p>
             <!--<blockquote>
               <p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
             </blockquote>-->
-            <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-            <h2>Heading</h2>
-            <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-            <h3>Sub-heading</h3>
+            <h2>Evaluating Performance</h2>
+            <p>To perform an experiment I create Java objects and serialize them into JSON or Avro, then send them into a Kafka cluster. Spark Streaming consumes messages in parallel from a Kafka topic using PySpark and the messages are de-serialized into Python objects. PySpark is used to perform an aggregation process with map-reduce on the unique-id of the device which sent the message.</p>
+            <h2>Results</h2>
+            <img data-src="../static/images/SerializationVSBatchWindow.png" class="img" alt="Serialization vs. Batch Window Size">
+
             <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
             <pre><code>Example code block</code></pre>
             <p>Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
