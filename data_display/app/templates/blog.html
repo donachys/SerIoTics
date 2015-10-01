@@ -106,8 +106,10 @@
             <h2>Evaluating Performance</h2>
             <p>To perform an experiment I create Java objects and serialize them into JSON or Avro, then send them into a Kafka cluster. Spark Streaming consumes messages in parallel from a Kafka topic using PySpark and the messages are de-serialized into Python objects. PySpark is used to perform an aggregation process with map-reduce on the unique-id of the device which sent the message.</p>
             <h2>Results</h2>
-            <img data-src="../static/images/SerializationVSBatchWindow.png" class="img" alt="Serialization vs. Batch Window Size">
-
+            <img src="../static/images/SerializationVSBatchWindow.png" height="505" width="650" class="img" alt="Serialization vs. Batch Window Size">
+            <p>
+            Avro is clearly ahead in every test. This shows that increasing the batch window size is more useful for JSON. A possible explanation is that the process of de-serialization becomes less of a factor as more messages are consumed and de-serialized in parallel.
+            </p>
             <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
             <pre><code>Example code block</code></pre>
             <p>Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
