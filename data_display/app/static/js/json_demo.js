@@ -5,28 +5,28 @@ $(function () {
         }
     });
     $('#JSONstart').click(function(){
-            start_url='http://ec2-52-26-108-249.us-west-2.compute.amazonaws.com:5000/api/json_run/true';
+            start_url='http://seriotics.info/api/json_run/true'
             $.ajax({url: start_url, 
                     cache: false
                 }
             );
         });
     $('#JSONstop').click(function(){
-            stop_url='http://ec2-52-26-108-249.us-west-2.compute.amazonaws.com:5000/api/json_run/false';
+            stop_url='http://seriotics.info/api/json_run/false'
             $.ajax({url: stop_url,
                     cache: false
                 }
             );
         });
     $('#JSONstartProducer').click(function(){
-            start_url='http://ec2-52-26-108-249.us-west-2.compute.amazonaws.com:5000/api/json_run_producer/true';
+            start_url='http://seriotics.info/api/json_run_producer/true'
             $.ajax({url: start_url, 
                     cache: false
                 }
             );
         });
     $('#JSONstopProducer').click(function(){
-            stop_url='http://ec2-52-26-108-249.us-west-2.compute.amazonaws.com:5000/api/json_run_producer/false';
+            stop_url='http://seriotics.info/api/json_run_producer/false';
             $.ajax({url: stop_url,
                     cache: false
                 }
@@ -40,7 +40,8 @@ $(function () {
 
                     // set up the updating of the chart each second
                     var series = this.series[0];
-                    tp_url = 'http://ec2-52-26-108-249.us-west-2.compute.amazonaws.com:5000/api/json_throughput'
+                    //tp_url = 'http://ec2-52-26-108-249.us-west-2.compute.amazonaws.com:5000/api/json_throughput'
+                    tp_url = 'http://seriotics.info/api/json_throughput'
 					setInterval(function () {
                         var x = (new Date()).getTime(), // current time
                             y = $.getJSON(tp_url, function(data){
