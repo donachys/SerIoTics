@@ -41,20 +41,10 @@ def emptyTable(RDB_TABLE):
     connection.close()
 
 @app.route('/')
-def homepage():
-
-    title = "SerIoTics"
-    paragraph = ["Wow, a website homepage"]
-
-    try:
-        return render_template("index.html", title = title, paragraph=paragraph)
-    except Exception, e:
-        return str(e)
 @app.route('/index')
 def index():
-   user = { 'nickname' : 'Miguel' } #fake user detected!
-   mylist = [1,2,3,4]
-   return render_template("index.html", title = 'Home', user = user, mylist = mylist)
+    title = "SerIoTics"
+   return render_template("index.html", title = title)
 @app.route('/super_secret/json_demo')
 def json_demo():
     emptyTable('json_test')
