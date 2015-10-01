@@ -8,8 +8,12 @@ import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.io.*;
 import org.apache.avro.specific.SpecificDatumReader;
 import org.apache.avro.specific.SpecificDatumWriter;
+import org.apache.avro.file.DataFileWriter;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.nio.file.Paths;
+import java.nio.file.Files;
 import java.io.IOException;
 
 
@@ -72,6 +76,13 @@ public class MinorCategory{
         out.close();
         return out.toByteArray();
     }
+    public void writeToFile(){
+        try{
+            Files.write(Paths.get("avromessage.txt"), getMessageAsBytes());
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
     private WaterSensor toWaterSensor(){
         /*
         all-args constructor
@@ -128,13 +139,8 @@ public class MinorCategory{
             }
     }
     public String getMessageAsJSON(){
-        //return "{\"water-sensor\": { \"sensor_id\": "+unique_id+", \"item_sensed\": \""+item_sensed+"\"+}}"
         Gson gson = new Gson();
         this.runtime = new Date().getTime();
-        //long unique_id, int major_num, int minor_num,
-        // float quantity, String minor_type,
-        // String major_type, String item_sensed,
-        // String subject_measured, String sensor_location_name
         if(is_flowing){
             quantity = consumption_rate;
             if(ticks_since_turn_on++ > 4){
@@ -142,21 +148,11 @@ public class MinorCategory{
                 is_flowing = false;
             }
             return gson.toJson(this);
-            // return gson.toJson(new WaterSensor(unique_id, major_area_num,
-            //                    minor_area_num, consumption_rate, 
-            //                    minType.toString(), majType.toString(),
-            //                    item_sensed, subject_measured,
-            //                    sensor_location_name, runtime));
         }else{
             quantity = 0.0f;
             if(Math.random() > prob_turn_on){
                 is_flowing = true;
             }
-            // return gson.toJson(new WaterSensor(unique_id, major_area_num,
-            //                    minor_area_num, 0.0f, minType.toString(), 
-            //                    majType.toString(), item_sensed, 
-            //                    subject_measured, sensor_location_name,
-            //                    runtime));
             return gson.toJson(this);
         }
     }
