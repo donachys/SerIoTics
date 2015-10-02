@@ -1,0 +1,13 @@
+com/SerIoTics/data_generation/SensorProtos.class
+com/SerIoTics/data_generation/SensorProtos$WaterSensorOrBuilder.class
+com/SerIoTics/data_generation/SensorProtos$1.class
+com/SerIoTics/data_generation/MinorCategory.class
+com/SerIoTics/data_generation/MajorType.class
+com/SerIoTics/data_generation/MinorType.class
+com/SerIoTics/data_generation/DataGenKafkaProtoProducer$2.class
+com/SerIoTics/data_generation/SensorProtos$WaterSensor$Builder.class
+com/SerIoTics/data_generation/DataGenKafkaProtoProducer$1.class
+com/SerIoTics/data_generation/SensorProtos$WaterSensor.class
+com/SerIoTics/data_generation/MajorCategory.class
+com/SerIoTics/data_generation/DataGenKafkaProtoProducer.class
+com/SerIoTics/data_generation/SensorProtos$WaterSensor$1.class

@@ -135,3 +135,44 @@ def avro_run_producer(execute):
         out,err = p.communicate()
         return out
 
+@app.route('/super_secret/proto_demo')
+def proto_demo():
+    emptyTable('proto_test')
+    return render_template('proto_demo.html')
+@app.route('/api/proto_throughput')
+def proto_throughput():
+    jsonresponse = {"records_per_second": getRecordsPerSecond('proto_test')}
+    return jsonify(result = jsonresponse)
+@app.route('/api/proto_run/<execute>')
+def proto_run(execute):
+    if(execute == "true"):
+        cmd = ["bash","proto_start.sh"]
+        p = subprocess.Popen(cmd, stdout = subprocess.PIPE,
+                                stderr=subprocess.PIPE,
+                                stdin=subprocess.PIPE)
+        out,err = p.communicate()
+        return out
+    else:
+        cmd = ["bash","proto_stop.sh"]
+        p = subprocess.Popen(cmd, stdout = subprocess.PIPE,
+                                stderr=subprocess.PIPE,
+                                stdin=subprocess.PIPE)
+        out,err = p.communicate()
+        return out
+@app.route('/api/proto_run_producer/<execute>')
+def proto_run_producer(execute):
+    if(execute == "true"):
+        cmd = ["bash","proto_start_prod.sh"]
+        p = subprocess.Popen(cmd, stdout = subprocess.PIPE,
+                                stderr=subprocess.PIPE,
+                                stdin=subprocess.PIPE)
+        out,err = p.communicate()
+        return out
+    else:
+        cmd = ["bash","proto_stop_prod.sh"]
+        p = subprocess.Popen(cmd, stdout = subprocess.PIPE,
+                                stderr=subprocess.PIPE,
+                                stdin=subprocess.PIPE)
+        out,err = p.communicate()
+        return out
+

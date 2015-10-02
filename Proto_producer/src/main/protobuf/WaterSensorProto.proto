@@ -1,0 +1,18 @@
+package com.SerIoTics.data_generation;
+
+option java_package = "com.SerIoTics.data_generation";
+option java_outer_classname = "SensorProtos";
+
+message WaterSensor {
+  optional string minType = 1;
+  optional string majType = 2;
+  optional string item_sensed = 3;
+  optional string subject_measured = 4;
+  optional string sensor_location_name = 5;
+  optional int64 unique_id = 6;
+  optional int64 runtime = 7;
+  optional float quantity = 8;
+  optional int32 major_area_num = 9;
+  optional int32 minor_area_num = 10;
+  optional int32 time_since_turn_on = 11;
+}
