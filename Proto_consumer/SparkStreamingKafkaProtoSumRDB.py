@@ -20,7 +20,7 @@ import io
 
 if __name__ == "__main__":
     if len(sys.argv) != 5:
-        print("Usage: SparkStreamingKafkaAvroSumRDB.py <zk> <topic> <window size (sec)> <tablename>", file=sys.stderr)
+        print("Usage: SparkStreamingKafkaProtoSumRDB.py <zk> <topic> <window size (sec)> <tablename>", file=sys.stderr)
         exit(-1)
 
     RDB_HOST =  os.environ.get('RDB_HOST')
@@ -29,7 +29,7 @@ if __name__ == "__main__":
     zkQuorum, topic, stream_window, RDB_TABLE = sys.argv[1:]
     stream_window = int(stream_window)
     
-    sc = SparkContext(appName="PythonStreamingKafkaAvroSums")
+    sc = SparkContext(appName="PythonStreamingKafkaProtoSums")
     ssc = StreamingContext(sc, batchDuration=stream_window)
 
     def createNewConnection():
@@ -45,7 +45,7 @@ if __name__ == "__main__":
     #reader = DatumReader(schema)
     numStreams = 6
 
-    kafkaStreams = [KafkaUtils.createStream(ssc=ssc, zkQuorum=zkQuorum, groupId="Avro-consumer", valueDecoder=io.BytesIO, topics={topic: 1}) for _ in range (numStreams)]
+    kafkaStreams = [KafkaUtils.createStream(ssc=ssc, zkQuorum=zkQuorum, groupId="Proto-consumer", valueDecoder=io.BytesIO, topics={topic: 1}) for _ in range (numStreams)]
     def sendRDDCount(count):
         connection = createNewConnection()
         r.table(RDB_TABLE).insert(count).run(connection)
