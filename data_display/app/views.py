@@ -137,11 +137,11 @@ def avro_run_producer(execute):
 
 @app.route('/super_secret/proto_demo')
 def proto_demo():
-    emptyTable('proto_test')
+    emptyTable('protobuf_test')
     return render_template('proto_demo.html')
 @app.route('/api/proto_throughput')
 def proto_throughput():
-    jsonresponse = {"records_per_second": getRecordsPerSecond('proto_test')}
+    jsonresponse = {"records_per_second": getRecordsPerSecond('protobuf_test')}
     return jsonify(result = jsonresponse)
 @app.route('/api/proto_run/<execute>')
 def proto_run(execute):
