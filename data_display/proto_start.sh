@@ -1,0 +1,1 @@
+ssh master 'bash -s' < proto_spark_submit.sh
