@@ -45,10 +45,6 @@ def emptyTable(RDB_TABLE):
 def index():
     title = "SerIoTics"
     return render_template("index.html", title = title)
-@app.route('/slides')
-def slides():
-    title = "SerIoTics"
-    return render_template("slides.html", title = title)
 @app.route('/blog')
 def blog():
     title = "SerIoTics"
