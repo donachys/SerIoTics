@@ -8,10 +8,12 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="http://code.highcharts.com/stock/highstock.js"></script>
 <script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
-<input type="button" class="btn btn-lg btn-success" value="startJSONtest" id="JSONstart">
-<input type="button" class="btn btn-lg btn-warning" value="stopJSONtest" id="JSONstop">
-<input type="button" class="btn btn-lg btn-success" value="startJSONproducer" id="JSONstartProducer">
-<input type="button" class="btn btn-lg btn-warning" value="stopJSONproducer" id="JSONstopProducer">
+<div id="btn_container" class="btn_container" style="height: 100px; width: 500px">
+<input type="button" class="btn btn-sm btn-success" value="startJSONtest" id="JSONstart">
+<input type="button" class="btn btn-sm btn-danger" value="stopJSONtest" id="JSONstop">
+<input type="button" class="btn btn-sm btn-success" value="startJSONproducer" id="JSONstartProducer">
+<input type="button" class="btn btn-sm btn-danger" value="stopJSONproducer" id="JSONstopProducer">
+</div>
 <div id="container" class="chart" style="height: 500px; width: 500px"></div>
 <script src="../static/js/json_demo.js"></script>
 </body>

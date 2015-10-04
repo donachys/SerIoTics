@@ -8,10 +8,12 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="http://code.highcharts.com/stock/highstock.js"></script>
 <script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
-<input type="button" value="startAvrotest" id="Avrostart">
-<input type="button" value="stopAvrotest" id="Avrostop">
-<input type="button" value="startAvroproducer" id="AvrostartProducer">
-<input type="button" value="stopAvroproducer" id="AvrostopProducer">
+<div id="btn_container" class="btn_container" style="height: 100px; width: 500px">
+<input type="button" class="btn btn-sm btn-success" value="startAvrotest" id="Avrostart">
+<input type="button" class="btn btn-sm btn-danger" value="stopAvrotest" id="Avrostop">
+<input type="button" class="btn btn-sm btn-success" value="startAvroproducer" id="AvrostartProducer">
+<input type="button" class="btn btn-sm btn-danger" value="stopAvroproducer" id="AvrostopProducer">
+</div>
 <div id="container" class="chart" style="height: 500px; width: 500px"></div>
 <script src="../static/js/avro_demo.js"></script>
 </body>
