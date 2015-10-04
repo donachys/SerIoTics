@@ -5,8 +5,8 @@ import java.util.List;
 public class MajorCategory{
     private static final int NUM_MINOR = 1250;
 
-    MajorType type;
-    int major_area_num;
+    private final MajorType type;
+    private final int major_area_num;
     public List<MinorCategory> minors = new ArrayList<MinorCategory>();
     public MajorCategory(int seed, MajorType mt, int major_num){
         type = mt;

@@ -5,7 +5,7 @@
   <artifactId>SerIoTics_data_generation</artifactId>
   <packaging>jar</packaging>
   <version>1.0</version>
-  <name>VLEMon_data_generation</name>
+  <name>SerIoTics_data_generation</name>
   <url>http://maven.apache.org</url>
   <build>
   <plugins>
@@ -21,6 +21,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
+        <version>2.6</version>
         <configuration>
           <excludes>
           <exclude>**/log4j.properties</exclude>
@@ -53,14 +54,6 @@
           </execution>
         </executions>
       </plugin>
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-compiler-plugin</artifactId>
-      <configuration>
-        <source>1.6</source>
-        <target>1.6</target>
-      </configuration>
-    </plugin>
     </plugins>
   </build>
   <dependencies>

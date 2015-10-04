@@ -53,7 +53,8 @@ public class MinorCategory{
     }
     public String getMessage(){
         if(is_flowing){
-            if(ticks_since_turn_on++ > 4){
+            ticks_since_turn_on++;
+            if(ticks_since_turn_on > 4){
                 ticks_since_turn_on = 0;
                 is_flowing = false;
             }
@@ -101,7 +102,8 @@ public class MinorCategory{
         this.runtime = new Date().getTime();
         if(is_flowing){
             quantity = consumption_rate;
-            if(ticks_since_turn_on++ > 4){
+            ticks_since_turn_on++;
+            if(ticks_since_turn_on > 4){
                 ticks_since_turn_on = 0;
                 is_flowing = false;
             }
@@ -143,7 +145,8 @@ public class MinorCategory{
         this.runtime = new Date().getTime();
         if(is_flowing){
             quantity = consumption_rate;
-            if(ticks_since_turn_on++ > 4){
+            ticks_since_turn_on++;
+            if(ticks_since_turn_on > 4){
                 ticks_since_turn_on = 0;
                 is_flowing = false;
             }

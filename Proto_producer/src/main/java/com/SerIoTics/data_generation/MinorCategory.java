@@ -43,12 +43,10 @@ public class MinorCategory{
     public String getMajorMinor(){
         return major_area_num+":"+minor_area_num;
     }
-    public boolean hasMessage(){
-        return true;
-    }
     public String getMessage(){
         if(is_flowing){
-            if(ticks_since_turn_on++ > 4){
+            ticks_since_turn_on++;
+            if(ticks_since_turn_on > 4){
                 ticks_since_turn_on = 0;
                 is_flowing = false;
             }
@@ -65,7 +63,8 @@ public class MinorCategory{
         this.runtime = new Date().getTime();
         if(is_flowing){
             quantity = consumption_rate;
-            if(ticks_since_turn_on++ > 4){
+            ticks_since_turn_on++;
+            if(ticks_since_turn_on > 4){
                 ticks_since_turn_on = 0;
                 is_flowing = false;
             }
@@ -92,7 +91,7 @@ public class MinorCategory{
     }
     public void writeToFile(){
         try{
-            Files.write(Paths.get("avromessage.txt"), getMessageAsBytes());
+            Files.write(Paths.get("protomessage.txt"), getMessageAsBytes());
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -102,7 +101,8 @@ public class MinorCategory{
         this.runtime = new Date().getTime();
         if(is_flowing){
             quantity = consumption_rate;
-            if(ticks_since_turn_on++ > 4){
+            ticks_since_turn_on++;
+            if(ticks_since_turn_on > 4){
                 ticks_since_turn_on = 0;
                 is_flowing = false;
             }
