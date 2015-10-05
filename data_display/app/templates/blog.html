@@ -67,9 +67,7 @@
             <p>The "Internet of Things" (IoT) is on its way and it's going to bring a lot of data with it. By simulating a large facility with millions of sensors we can evaluate the effect of different serialization protocols on the throughput of a micro-batch streaming system.</p>
             <hr>
             <p>Serialization is important for passing data through a heterogenous environment in a language agnostic format. A serialization format can also give flexibility towards scheme changes as data needs evolve. Since there is so much data: reducing the size of that data will improve network performance, disk and memory accesses.</p>
-            <hr>
             <p>This JSON message in text form is about 265 bytes.</p>
-            <hr>
             <pre><code>
             {
               "minType":"BATHROOM",
@@ -82,7 +80,6 @@
               "ticks_since_turn_on":0
             }
             </code></pre>
-            <hr>
             <p>Avro schema are specified using a JSON format. Below is the schema used for encoding the JSON data shown above. Serializing it into a byte array with Avro makes it about 58 bytes and serializing with Protocol Buffers makes it 69 bytes.</p>
             <pre><code>
             {"namespace": "com.SerIoTics.data_generation",
@@ -111,7 +108,7 @@
             <h2>Results</h2>
             <img src="../static/images/SerializationVSBatchWindow.png" height="505" width="650" class="img" alt="Serialization vs. Batch Window Size">
             <p>
-            The results for Protocol Buffers and Avro are very similar, which makes sense since they both reduce the size of the messages considerably. Additionally, defining the schema enables much faster marshalling and unmarshalling of the messages. The advantage is given slightly to Avro, but the real differences come down to how the protocols fit into the specific use case of a processing pipeline.
+            The results for Protocol Buffers and Avro are very similar. Defining the schema provides an advantage over parsing JSON, enabling much faster marshalling and unmarshalling of the messages. A slight advantage over Protocol Buffers is given to Avro, but the real differences come down to how the protocols fit into the specific use case of a processing pipeline.
             </p>
           </div><!-- /.blog-post -->
 
@@ -134,7 +131,7 @@
       </div><!-- /.row -->
 
     </div><!-- /.container -->
-
+    <hr>
     <footer class="blog-footer">
       <p>
         <a href="#">Back to top</a>
