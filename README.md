@@ -57,6 +57,6 @@ To perform an experiment Java objects created and serialized into JSON strings, 
 
 ##Results
 
-![alt text](https://github.com/donachys/ SerIoTics/raw/master/data_display/app/static/images/SerializationVSBatchWindow.png  "Serializtaion VS Batch Window Size")
+![alt text](https://github.com/donachys/SerIoTics/raw/master/data_display/app/static/images/SerializationVSBatchWindow.png  "Serializtaion VS Batch Window Size")
 
 The results for Protocol Buffers and Avro are very similar. Defining the schema provides an advantage over parsing JSON, enabling much faster marshalling and unmarshalling of the messages. A slight advantage over Protocol Buffers is given to Avro, but the real differences come down to how the protocols fit into the specific use case of a processing pipeline.
