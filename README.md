@@ -23,7 +23,7 @@ This JSON message in text form is about 265 bytes.
   "ticks_since_turn_on":0
 }
 ```
-Avro schema are specified using a JSON format. Below is the schema used for encoding the JSON data shown above. Serializing it into a byte array with Avro makes it about 58 bytes and serializing with Protocol Buffers makes it 69 bytes.
+Avro schema are specified using a JSON format. Below is the schema used for encoding the JSON data shown above. Serializing it into a byte array with Avro makes it about 58 bytes.
 
 ```
 {"namespace": "com.SerIoTics.data_generation",
@@ -45,6 +45,27 @@ Avro schema are specified using a JSON format. Below is the schema used for enco
 }
 ```
 Bundling the schema header along with the avro serialized byte-array results in a 540 byte message which actually increases the message size in this case.
+
+Protocol Buffers schema are specified in a special format. Below is an example that was used to encode the same JSON data.
+```
+option java_package = "com.SerIoTics.data_generation";
+option java_outer_classname = "SensorProtos";
+
+message WaterSensor {
+  optional string minType = 1;
+  optional string majType = 2;
+  optional string item_sensed = 3;
+  optional string subject_measured = 4;
+  optional string sensor_location_name = 5;
+  optional int64 unique_id = 6;
+  optional int64 runtime = 7;
+  optional float quantity = 8;
+  optional int32 major_area_num = 9;
+  optional int32 minor_area_num = 10;
+  optional int32 time_since_turn_on = 11;
+}
+```
+Serializing with Protocol Buffers makes the same JSON message in 69 bytes.
 
 ##Evaluating Performance
 
