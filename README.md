@@ -50,13 +50,13 @@ Bundling the schema header along with the avro serialized byte-array results in 
 
 To perform an experiment Java objects created and serialized into JSON strings, or byte arrays in the case of Protobuf or Avro. The serialized messages are then fed into a Kafka cluster. Spark Streaming consumes messages in parallel from a Kafka topic using PySpark and the messages are de-serialized into Python objects. The schema definitions are located on both the producer and consumer sides per the needs of each protocol. PySpark is used to perform an aggregation process with map-reduce on the unique-id of the device which sent the message.
 
-![alt text](https://github.com/donachys/SerIoTics/data_display/app/static/images/Producer_Serialization.png  "Java Producer Serialization")
+![alt text](https://github.com/donachys/SerIoTics/raw/master/data_display/app/static/images/Producer_Serialization.png  "Java Producer Serialization")
 
 
-![alt text](https://github.com/donachys/SerIoTics/data_display/app/static/images/Consumer_Deserialization.png "Python Consumer Serialization")
+![alt text](https://github.com/donachys/SerIoTics/raw/master/data_display/app/static/images/Consumer_Deserialization.png "Python Consumer Serialization")
 
 ##Results
 
-![alt text](https://github.com/donachys/ SerIoTics/data_display/app/static/images/SerializationVSBatchWindow.png  "Serializtaion VS Batch Window Size")
+![alt text](https://github.com/donachys/ SerIoTics/raw/master/data_display/app/static/images/SerializationVSBatchWindow.png  "Serializtaion VS Batch Window Size")
 
 The results for Protocol Buffers and Avro are very similar. Defining the schema provides an advantage over parsing JSON, enabling much faster marshalling and unmarshalling of the messages. A slight advantage over Protocol Buffers is given to Avro, but the real differences come down to how the protocols fit into the specific use case of a processing pipeline.
