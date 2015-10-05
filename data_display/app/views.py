@@ -50,7 +50,7 @@ def blog():
     title = "SerIoTics"
     return render_template("blog.html", title = title)
 @app.route('/slides_pdf')
-def slides_pdf:
+def slides_pdf():
     return app.send_static_file('Shaun_Donachy_Demo.pdf')
 @app.route('/super_secret/json_demo')
 def json_demo():
