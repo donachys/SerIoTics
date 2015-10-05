@@ -67,7 +67,9 @@
             <p>The "Internet of Things" (IoT) is on its way and it's going to bring a lot of data with it. By simulating a large facility with millions of sensors we can evaluate the effect of different serialization protocols on the throughput of a micro-batch streaming system.</p>
             <hr>
             <p>Serialization is important for passing data through a heterogenous environment in a language agnostic format. A serialization format can also give flexibility towards scheme changes as data needs evolve. Since there is so much data: reducing the size of that data will improve network performance, disk and memory accesses.</p>
+            <hr>
             <p>This JSON message in text form is about 265 bytes.</p>
+            <hr>
             <pre><code>
             {
               "minType":"BATHROOM",
@@ -80,7 +82,8 @@
               "ticks_since_turn_on":0
             }
             </code></pre>
-            <p>Avro schema are specified using a JSON format. Below is the schema used for encoding the JSON data shown above. Serializing it into a byte array with Avro makes it about 60 bytes.
+            <hr>
+            <p>Avro schema are specified using a JSON format. Below is the schema used for encoding the JSON data shown above. Serializing it into a byte array with Avro makes it about 58 bytes and serializing with Protocol Buffers makes it 69 bytes.</p>
             <pre><code>
             {"namespace": "com.SerIoTics.data_generation",
              "type": "record",
@@ -100,16 +103,15 @@
              ]
             }
             </code></pre>
-            Bundling the schema header along with the avro serialized byte-array results in a 540 byte message which actually increases the message size in this case.</p>
-            <!--<blockquote>
-              <p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-            </blockquote>-->
+            <p>Bundling the schema header along with the avro serialized byte-array results in a 540 byte message which actually increases the message size in this case.</p>
             <h2>Evaluating Performance</h2>
-            <p>To perform an experiment I create Java objects and serialize them into JSON or Avro, then send them into a Kafka cluster. Spark Streaming consumes messages in parallel from a Kafka topic using PySpark and the messages are de-serialized into Python objects. PySpark is used to perform an aggregation process with map-reduce on the unique-id of the device which sent the message.</p>
+            <p>To perform an experiment Java objects created and serialized into JSON strings, or byte arrays in the case of Protobuf or Avro. The serialized messages are then fed into a Kafka cluster. Spark Streaming consumes messages in parallel from a Kafka topic using PySpark and the messages are de-serialized into Python objects. The schema definitions are located on both the producer and consumer sides per the needs of each protocol. PySpark is used to perform an aggregation process with map-reduce on the unique-id of the device which sent the message.</p>
+            <img src="../static/images/Producer_Serialization.png" height="505" width="650" class="img" alt="Producer Serialization">
+            <img src="../static/images/Consumer_Deserialization.png" height="505" width="650" class="img" alt="Consumer Deserialization">
             <h2>Results</h2>
             <img src="../static/images/SerializationVSBatchWindow.png" height="505" width="650" class="img" alt="Serialization vs. Batch Window Size">
             <p>
-            Avro is clearly ahead in every test. This shows that increasing the batch window size is more useful for JSON. A possible explanation is that the process of de-serialization becomes less of a factor as more messages are consumed and de-serialized in parallel.
+            The results for Protocol Buffers and Avro are very similar, which makes sense since they both reduce the size of the messages considerably. Additionally, defining the schema enables much faster marshalling and unmarshalling of the messages. The advantage is given slightly to Avro, but the real differences come down to how the protocols fit into the specific use case of a processing pipeline.
             </p>
           </div><!-- /.blog-post -->
 
