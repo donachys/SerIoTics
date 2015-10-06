@@ -11,7 +11,8 @@ import rethinkdb as r
 import json
 import os
 
-
+#PySpark App to consume data from kafka, deserialize, and perform a map-reduce aggregation 
+# on the unique device_id included in the message and sum the quantity in the message
 if __name__ == "__main__":
     if len(sys.argv) != 5:
         print("Usage: SparkStreamingKafkaJSONSumRDB.py <zk> <topic> <window size (sec)> <tablename>", file=sys.stderr)
@@ -27,6 +28,7 @@ if __name__ == "__main__":
     ssc = StreamingContext(sc, batchDuration=stream_window)
     def createNewConnection():
         return r.connect(host=RDB_HOST, port=RDB_PORT, db=RDB_DB)
+    
     #delete any data in table
     connection = createNewConnection()
     r.table(RDB_TABLE).delete().run(connection)
@@ -34,21 +36,12 @@ if __name__ == "__main__":
     
     streams = []
     
-    numStreams = 6
+    numStreams = 6 #read parallelism
     kafkaStreams = [KafkaUtils.createStream(ssc, zkQuorum, "JSON-consumer", {topic: 1}) for _ in range (numStreams)]
-
+    #set up kafkaStreams into a list
     def sendRDDCount(count):
         connection = createNewConnection()
         r.table(RDB_TABLE).insert(count).run(connection)
-        connection.close()
-    def sendPartitionCount(index, count):
-        connection = createNewConnection()
-        r.table(RDB_TABLE).insert({"partition":index, "count": count, "time":time.time()}).run(connection)
-        connection.close()
-    def sendPartition(iter):
-        connection = createNewConnection()
-        for record in iter:
-            r.table(RDB_TABLE).insert(json.loads(record[1])).run(connection)
         connection.close()
     for idx,kvs in enumerate(kafkaStreams):
         countsDstream=kvs.count()

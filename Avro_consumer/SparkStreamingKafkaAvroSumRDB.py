@@ -16,6 +16,9 @@ import json
 import os
 import io
 
+#PySpark App to consume data from kafka, deserialize, and perform a map-reduce aggregation 
+# on the unique device_id included in the message and sum the quantity in the message
+
 if __name__ == "__main__":
     if len(sys.argv) != 5:
         print("Usage: SparkStreamingKafkaAvroSumRDB.py <zk> <topic> <window size (sec)> <tablename>", file=sys.stderr)
@@ -38,23 +41,15 @@ if __name__ == "__main__":
     connection.close()
     
     streams = []
-    schema = avro.schema.parse(open("/home/ubuntu/SerIoTics/Avro_consumer/WaterSensor.avsc").read())
+    #avro schema/reader
+    schema = avro.schema.parse(open("/home/ubuntu/SerIoTics/Avro_consumer/WaterSensor.avsc").read())#absolute path =/
     reader = DatumReader(schema)
-    numStreams = 6
-
+    numStreams = 6 #read parallelism
+    #set up kafkaStreams into a list
     kafkaStreams = [KafkaUtils.createStream(ssc=ssc, zkQuorum=zkQuorum, groupId="Avro-consumer", valueDecoder=io.BytesIO, topics={topic: 1}) for _ in range (numStreams)]
     def sendRDDCount(count):
         connection = createNewConnection()
         r.table(RDB_TABLE).insert(count).run(connection)
-        connection.close()
-    def sendPartitionCount(index, count):
-        connection = createNewConnection()
-        r.table(RDB_TABLE).insert({"partition":index, "count": count, "time":time.time()}).run(connection)
-        connection.close()
-    def sendPartition(iter):
-        connection = createNewConnection()
-        for record in iter:
-            r.table(RDB_TABLE).insert(json.loads(record[1])).run(connection)
         connection.close()
     def bytesDecoder(x):
         decoder = BinaryDecoder(x)

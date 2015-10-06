@@ -9,14 +9,13 @@ from pyspark.streaming.kafka import KafkaUtils
 
 import WaterSensorProto_pb2
 
-# import avro.schema
-# from avro.datafile import DataFileReader, DataFileWriter
-# from avro.io import DatumReader, DatumWriter, BinaryDecoder
-
 import rethinkdb as r
 import json
 import os
 import io
+
+#PySpark App to consume data from kafka, deserialize, and perform a map-reduce aggregation 
+# on the unique device_id included in the message and sum the quantity in the message
 
 if __name__ == "__main__":
     if len(sys.argv) != 5:
@@ -40,11 +39,10 @@ if __name__ == "__main__":
     connection.close()
     
     streams = []
-    #schema = avro.schema.parse(open("/home/ubuntu/SerIoTics/Avro_consumer/WaterSensor.avsc").read())
+    #protobuf reader
     reader = WaterSensorProto_pb2.WaterSensor()
-    #reader = DatumReader(schema)
-    numStreams = 6
-
+    numStreams = 6 #read parallelism
+    #set up kafkaStreams into a list
     kafkaStreams = [KafkaUtils.createStream(ssc=ssc, zkQuorum=zkQuorum, groupId="Proto-consumer", valueDecoder=io.BytesIO, topics={topic: 1}) for _ in range (numStreams)]
     def sendRDDCount(count):
         connection = createNewConnection()
