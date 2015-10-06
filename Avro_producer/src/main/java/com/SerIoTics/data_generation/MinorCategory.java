@@ -22,11 +22,12 @@ public class MinorCategory{
     MinorType minType;
     MajorType majType;
     int major_area_num, minor_area_num;
-    float quantity;
-    long unique_id, runtime;
+    float quantity;//sensor measurement value
+    long unique_id, runtime;//device_id, unix_time of message
     String item_sensed, subject_measured, sensor_location_name;
     int ticks_since_turn_on = 0;
     
+    /*non serialized variables*/
     transient static long id_counter = 0;
     transient float consumption_rate;
     transient boolean is_flowing=false;
@@ -34,7 +35,8 @@ public class MinorCategory{
     transient float max_consumption_rate = 10.0f;
     
 
-    public MinorCategory(MinorType mint, MajorType majt, int seed, int major, int minor){
+    public MinorCategory(MinorType mint, MajorType majt, 
+                            int seed, int major, int minor){
         major_area_num = major;
         minor_area_num = minor;
         minType = mint;
@@ -48,9 +50,7 @@ public class MinorCategory{
     public String getMajorMinor(){
         return major_area_num+":"+minor_area_num;
     }
-    public boolean hasMessage(){
-        return true;
-    }
+    /* basic information String */
     public String getMessage(){
         if(is_flowing){
             ticks_since_turn_on++;
@@ -58,18 +58,22 @@ public class MinorCategory{
                 ticks_since_turn_on = 0;
                 is_flowing = false;
             }
-            return unique_id+","+item_sensed+","+subject_measured+","+sensor_location_name+","+consumption_rate;
+            return unique_id+","+item_sensed+","+subject_measured+","+
+                    sensor_location_name+","+consumption_rate;
         }else{
             if(Math.random() > prob_turn_on){
                 is_flowing = true;
             }
-            return unique_id+","+item_sensed+","+subject_measured+","+sensor_location_name+","+0;
+            return unique_id+","+item_sensed+","+subject_measured+","+
+                    sensor_location_name+","+0;
         }
     }
+    /* Avro byte array */
     public byte[] getMessageAsBytes() throws IOException{
 
         WaterSensor ws = toWaterSensor();
-        DatumWriter<WaterSensor> wsDatumWriter = new SpecificDatumWriter<WaterSensor>(WaterSensor.class);
+        DatumWriter<WaterSensor> wsDatumWriter = 
+                    new SpecificDatumWriter<WaterSensor>(WaterSensor.class);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         BinaryEncoder encoder = EncoderFactory.get().binaryEncoder(out, null);
         wsDatumWriter.write(ws, encoder);
@@ -84,6 +88,7 @@ public class MinorCategory{
             e.printStackTrace();
         }
     }
+    /* convert this to a WaterSensor */
     private WaterSensor toWaterSensor(){
         /*
         all-args constructor
@@ -140,6 +145,7 @@ public class MinorCategory{
                                  );
             }
     }
+    /* JSON format String */
     public String getMessageAsJSON(){
         Gson gson = new Gson();
         this.runtime = new Date().getTime();

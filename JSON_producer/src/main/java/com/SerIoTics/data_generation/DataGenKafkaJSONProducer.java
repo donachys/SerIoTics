@@ -1,4 +1,6 @@
-package com.SerIoTics.data_generation;
+//unique starting point for device id's
+//time between message threads
+//duration of the experimentpackage com.SerIoTics.data_generation;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
@@ -15,7 +17,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class DataGenKafkaJSONProducer{
-    public static final int NUM_MAJOR = 100;
+    public static final int NUM_MAJOR = 100;// the number of major categories to generate
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(4);
 
         public static void main(String... args){
@@ -23,9 +25,9 @@ public class DataGenKafkaJSONProducer{
                 System.out.println("args: <seed> <delay> <duration>");
                 System.exit(0);
             }
-            int seed = Integer.parseInt(args[0]);
-            long delay = Long.parseLong(args[1]);
-            long duration = Long.parseLong(args[2]);
+            int seed = Integer.parseInt(args[0]);//unique starting point for device id's
+            long delay = Long.parseLong(args[1]);//time between message threads
+            long duration = Long.parseLong(args[2]);//duration of the experiment
             Random rnd = new Random();
             Properties props = new Properties();
             props.put("bootstrap.servers", "ec2-54-219-131-191.us-west-1.compute.amazonaws.com:9092,ec2-54-219-135-236.us-west-1.compute.amazonaws.com:9092,ec2-54-219-166-112.us-west-1.compute.amazonaws.com:9092,ec2-54-219-135-254.us-west-1.compute.amazonaws.com:9092");
@@ -51,7 +53,6 @@ public class DataGenKafkaJSONProducer{
                             //poll MinorCategories
                             String key = tempMC.minors.get(j).getMajorMinor();
                             String msg = tempMC.minors.get(j).getMessageAsJSON();
-                            //System.out.println("key: " + key + " msg: " + msg);
                             ProducerRecord<String, String> data = new ProducerRecord<String, String>("json-topic2", key, msg);
                             producer.send(data);
                         }

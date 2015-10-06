@@ -3,7 +3,7 @@ package com.SerIoTics.data_generation;
 import java.util.ArrayList;
 import java.util.List;
 public class MajorCategory{
-    private static final int NUM_MINOR = 1250;
+    private static final int NUM_MINOR = 1250;//number of minor categories to generate
 
     private final MajorType type;
     private final int major_area_num;
