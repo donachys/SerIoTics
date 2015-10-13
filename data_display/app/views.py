@@ -59,6 +59,9 @@ def blog():
 @app.route('/slides_pdf')
 def slides_pdf():
     return app.send_static_file('Shaun_Donachy_Demo.pdf')
+@app.route('/exp_mp4')
+def exp_mp4():
+    return app.send_static_file('JSON_Avro_ProtoBuf.mp4')
 #end points for animated demo
 #commented out for paranoia
 # @app.route('/super_secret/json_demo')
