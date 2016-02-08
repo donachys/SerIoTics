@@ -8,7 +8,7 @@ from flask import jsonify
 from flask import render_template
 from flask import Flask
 
-from app import app
+app = Flask(__name__)
 
 RDB_HOST =  os.environ.get('RDB_HOST')
 RDB_PORT = os.environ.get('RDB_PORT')
@@ -62,6 +62,10 @@ def slides_pdf():
 @app.route('/exp_mp4')
 def exp_mp4():
     return app.send_static_file('JSON_Avro_ProtoBuf.mp4')
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0')
+
 #end points for animated demo
 #commented out for paranoia
 # @app.route('/super_secret/json_demo')

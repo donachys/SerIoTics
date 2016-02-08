@@ -1,0 +1,17 @@
+# /etc/systemd/system/seriotics.service
+# sudo systemctl enable seriotics
+# sudo systemctl start seriotics
+
+[Unit]
+Description=Gunicorn instance to serve SerIoTics
+After=network.target
+
+[Service]
+User=flask
+Group=nginx
+WorkingDirectory=/home/flask/SerIoTics/data_display/
+Environment="PATH=/home/flask/SerIoTics/venv/bin"
+ExecStart=/home/flask/SerIoTics/venv/bin/gunicorn --workers 3 --bind unix:SerIoTics.sock -m 007 app.wsgi:app
+
+[Install]
+WantedBy=multi-user.target
